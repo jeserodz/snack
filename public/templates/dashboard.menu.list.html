@@ -1,0 +1,41 @@
+<!-- Main content -->
+<section class="content">
+
+  <!-- Default box -->
+  <div class="box box-warning" style="min-height: 100%">
+    <div class="box-header with-border">
+      <h3 class="box-title">Listado de Platos en tu Menú</i></h3>
+      <div class="box-tools pull-right">
+        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+      </div>
+    </div>
+    <div class="box-body">
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="item in user.data.menu">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><img style="height:100%; vertical-align:bottom" src="{{item.pictures[0]}}" /></span>
+            <div class="info-box-content">
+              <span class="info-box-text">
+                <b>{{item.name}}</b> 
+                <a class="pull-right"><i class="ion ion-more"></i></a>
+              </span>
+              <span class="info-box-number">${{item.price}}</span>
+              <span class="info-box-rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-half-o"></i>
+                <i class="fa fa-star-o"></i>
+              </span>
+              <span class="info-box-text" style="text-transform: none">Se ha ordenado {{item.timesOrdered}} veces</span>
+            </div><!-- /.info-box-content -->
+          </div><!-- /.info-box -->
+        </div><!-- /.col -->
+      </div>
+    </div><!-- /.box-body -->
+    <div class="overlay" ng-show="!feed.medias">
+      <i class="fa fa-refresh fa-spin"></i>
+    </div>
+  </div><!-- /.box -->
+
+</section><!-- /.content

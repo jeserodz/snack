@@ -1,0 +1,111 @@
+<!-- Main content -->
+<section class="content">
+
+  <!-- Default box -->
+  <div class="box box-warning" style="min-height: 100%">
+    <div class="box-header with-border">
+      <h3 class="box-title">Agrega Platos al Menú desde Instagram <i class="fa fa-instagram"></i></h3>
+      <div class="box-tools pull-right">
+        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+      </div>
+    </div>
+    <div class="box-body">
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="media in feed.medias" ng-show="feed">
+          <div class="info-box">
+            <span class="info-box-icon bg-red">
+              <img style="height:100%; vertical-align:bottom" src="{{media.images.standard_resolution.url}}" />
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text"><b>{{media.caption.text}} &nbsp;</b></span>
+              <span class="info-box-text" style="text-transform: none">
+                <i class="fa fa-heart" style="color:#E04346"></i> {{media.likes.count}} 
+                <i class="fa fa-comments" style="color:#996633"></i> {{media.comments.count}}
+              </span>
+              <span class="info-box-text" style="text-transform: none">Publicado: {{media.created_time}} &nbsp;</span>
+              <span class="info-box-text" style="text-transform: none">
+                <button class="btn btn-xs btn-flat btn-danger" data-toggle="modal" data-target="#addNewMenuItemModal" ng-click="addItemIndex($index)">
+                  <i class="fa fa-plus"> Nuevo Plato</i>
+                </button>
+                <button class="btn btn-xs btn-flat bg-navy" ng-show='false'>
+                  <i class="fa fa-camera-retro"> Agregar a Plato</i>
+                </button>
+              </span>
+            </div><!-- /.info-box-content -->
+          </div><!-- /.info-box -->
+        </div><!-- /.col -->
+      </div>
+    </div><!-- /.box-body -->
+    <div class="overlay" ng-show="!feed.medias">
+      <i class="fa fa-refresh fa-spin"></i>
+    </div>
+  </div><!-- /.box -->
+
+
+  <!-- Add New Menu Item Modal -->
+  <div class="modal modal-danger fade" id="addNewMenuItemModal" tabindex="-1" role="dialog" aria-labelledby="Add New Menu Item">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title text-center" id="myModalLabel"><i class="ion ion-pizza"></i> Nuevo Plato</i></h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <table>
+              <td class="col-sm-2 col-xs-2 text-center">
+                  <a ng-click="changeModalItem(-1)" style="color:#fff; font-size:xx-large"><i class="ion ion-android-arrow-dropleft-circle"></i></a>
+              </td>
+              <td class="col-sm-8 col-xs-8">
+                  <div class="row"> 
+                    <div class="col-xs-8 col-xs-offset-2">
+                      <img src="{{feed.medias[addIndex].images.standard_resolution.url}}" style="width:100%; box-shadow:rgba(0, 0, 0, 0.27) 1px 1px 12px"/>
+                    </div>
+                  </div>
+                  <form>
+                    <div class="form-group">
+                      <label for="addMenuItemName">
+                        <h4>Nombre del Plato
+                        <small style="color:#ccc">({{feed.medias[addIndex].caption.text || ' '}})</small></h4> 
+                      </label>
+                      <input type="text" 
+                          class="form-control" 
+                          ng-model="$parent.addMenuItemName" 
+                          ng-change="checkAddItemRequirements()" 
+                          placeholder="Entra el nombre del plato...">
+                    </div>
+                    <div class="form-group">
+                      <label for="addMenuItemPrice"><h4>Precio del Plato</h4></label>
+                      <input type="number" 
+                          class="form-control" 
+                          ng-model="$parent.addMenuItemPrice" 
+                          ng-change="checkAddItemRequirements()" 
+                          placeholder="Entra el precio del plato...">
+                    </div>
+                    <div class="form-group">
+                      <label for="addMenuItemDesc"><h4>Descripción del Plato</h4></label>
+                      <input type="text" 
+                          class="form-control" 
+                          ng-model="$parent.addMenuItemDesc" 
+                          ng-change="checkAddItemRequirements()" 
+                          placeholder="Cómo es este plato? (ingredientes, etc...)">
+                    </div>
+                    <div class="form-group">
+                      <button class="btn btn-block btn-warning" ng-disabled="$parent.addItemMissingFields" ng-click="createMenuItem()">Agregar al Menú</button>
+                    </div>
+                  </form>
+              </td>
+              <td class="col-sm-2 col-xs-2 text-center">
+                <a ng-click="changeModalItem(1)" style="color:#fff; font-size:xx-large"><i class="ion ion-android-arrow-dropright-circle"></i></a>
+              </td>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /. Add New Menu Item Modal -->
+
+</section><!-- .content -->
