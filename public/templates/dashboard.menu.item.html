@@ -26,7 +26,7 @@
           <button class="btn btn-block btn-default" data-toggle="modal" data-target="#showConfirmationModal" ng-show="!item.visible">
             <i class="ion ion-eye"></i> Reactivar en el Menú
           </button>
-          <button class="btn btn-block btn-danger"><i class="ion ion-close"></i> Remover del Menú</button>
+          <button class="btn btn-block btn-danger" data-toggle="modal" data-target="#deleteConfirmationModal"><i class="ion ion-close"></i> Remover del Menú</button>
         </div>
         <div class="col-sm-8">
           <!-- Item Details Box -->
@@ -113,6 +113,31 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="showItem(item)">Reactivar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No hacer nada</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /. Hide Confirmation Modal -->
+  <!-- Delete Confirmation Modal -->
+  <div class="modal modal-default fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="Add New Menu Item">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title text-center" id="myModalLabel"><i class="ion ion-close"></i> Remover del Menú</i></h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <ul>
+                <li>Esta opción elimina este plato del menú.</li>
+                <li>El plato será borrado del menú.</li>
+                <li>Puede volver a crear este plato en el futuro usando la opción Menú -> Agregar</li>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteItem(item)">Remover</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">No hacer nada</button>
         </div>
       </div>

@@ -33025,7 +33025,7 @@ module.exports = function(app) {
 
 	
 
-	app.controller('MenuItemCtrl', function($scope, $http, $state, Menu) {
+	app.controller('MenuItemCtrl', function($scope, $http, $state, $timeout, Menu) {
 
 		// Read item ID in the URL and load from DB
 		Menu.getItem($state.params.id, function(error, item) {
@@ -33055,6 +33055,21 @@ module.exports = function(app) {
 				if(error) return console.log(error);
 				$scope.item = item;
 				$scope.loading = false;
+			});
+		};
+
+		// Delete item and update in DB
+		$scope.deleteItem = function(item) {
+			$scope.loading = true;
+			Menu.deleteItem(item._id, function(error, menu) {
+				if(error) return console.log(error);
+				// Update user menu
+				$scope.$parent.user.data.menu = menu;
+				// Timeout needed because bootstrap modal is slow to dissapear
+				$timeout(function() {
+					$scope.loading = false;
+					$state.go('dashboard.menu')
+				}, 1000);
 			});
 		};
 	});
@@ -33201,6 +33216,12 @@ module.exports = function(app) {
 				$http.put('/api/menu/item/' + menuItem._id, menuItem).success(function(response) {
 					if(response.error) { return callback(response.error, null) }
 					if(response.item) { return callback(null, response.item) }
+				});
+			},
+			deleteItem: function(menuItemID, callback) {
+				$http.delete('/api/menu/item/' + menuItemID).success(function(response) {
+					if(response.error) { return callback(response.error, null) }
+					if(response.menu) { return callback(null, response.menu) }
 				});
 			}
 		};

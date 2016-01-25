@@ -53,6 +53,12 @@ module.exports = function(app) {
 					if(response.error) { return callback(response.error, null) }
 					if(response.item) { return callback(null, response.item) }
 				});
+			},
+			deleteItem: function(menuItemID, callback) {
+				$http.delete('/api/menu/item/' + menuItemID).success(function(response) {
+					if(response.error) { return callback(response.error, null) }
+					if(response.menu) { return callback(null, response.menu) }
+				});
 			}
 		};
 	}]);

@@ -27,7 +27,7 @@ var menuAPI = function(wagner) {
 		};
 	}));
 
-	// Get the menu list
+	// Get the menu list for the logged-in user
 	menu.get('/', wagner.invoke(function(User, Menu) {		
 
 		return function(req, res) {	
@@ -36,7 +36,8 @@ var menuAPI = function(wagner) {
 					.json({ error: "User is not logged in", loginUrl: "http://localhost:3000/auth/instagram" });
 			}
 
-			Menu.find({}, function(err, menu) {
+			Menu.find({ owner: req.user._id }, function(err, menu) {
+				if(err) return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error: err });
 				return res.json({ menu: menu });
 			});
 
@@ -69,6 +70,25 @@ var menuAPI = function(wagner) {
 	      Menu.findOne({ _id: updatedItem._id }, function(err, item) {
 	      	if(err) { return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error: err }); }
 	      	return res.json({ item: item });
+	      });
+	    });
+		};
+	}));
+
+	// Remove an specific menu item by ID
+	menu.delete('/item/:id', wagner.invoke(function(Menu) {
+		return function(req, res) {
+			if(!req.user) {
+				return res.status(HTTPStatus.UNAUTHORIZED).json({ error: 'User is not logged in'});
+			}
+
+			Menu.remove({ _id: req.params.id }, function (err) {
+	      if(err) { return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error: err }); }
+
+	      // Deleted OK, now reponse the updated menu
+	      Menu.find({ owner: req.user._id }, function(err, menu) {
+	      	if(err) { return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error: err }); }
+	      	return res.json({ menu: menu });
 	      });
 	    });
 		};
