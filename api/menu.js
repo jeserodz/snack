@@ -52,6 +52,28 @@ var menuAPI = function(wagner) {
 			});
 		};
 	}));
+
+	// Update an specific menu item by ID
+	menu.put('/item/:id', wagner.invoke(function(Menu) {
+		return function(req, res) {
+			if(!req.user) {
+				return res.status(HTTPStatus.UNAUTHORIZED).json({ error: 'User is not logged in'});
+			}
+
+			var updatedItem = req.body;
+
+			Menu.update({ _id: updatedItem._id }, updatedItem, function (err, raw) {
+	      if(err) { return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error: err }); }
+
+	      // Update OK, now reponse the updated item
+	      Menu.findOne({ _id: updatedItem._id }, function(err, item) {
+	      	if(err) { return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error: err }); }
+	      	return res.json({ item: item });
+	      });
+	    });
+		};
+	}));
+
 	return menu;
 };
 

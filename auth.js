@@ -12,7 +12,6 @@ module.exports = function(Config, User, app) {
 	    callbackURL: "http://localhost:3000/auth/instagram/callback"
 	  },
 	  function(accessToken, refreshToken, profile, done) {
-	  	console.log({profile: profile});
 	    User.findOneAndUpdate(
 	    	// query by example
 	    { 

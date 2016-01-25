@@ -47,6 +47,12 @@ module.exports = function(app) {
 					if(response.error) { return callback(response.error, null) }
 					if(response.item) { return callback(null, response.item) }
 				});
+			},
+			updateItem: function(menuItem, callback) {
+				$http.put('/api/menu/item/' + menuItem._id, menuItem).success(function(response) {
+					if(response.error) { return callback(response.error, null) }
+					if(response.item) { return callback(null, response.item) }
+				});
 			}
 		};
 	}]);

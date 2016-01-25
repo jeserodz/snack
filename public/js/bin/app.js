@@ -32983,18 +32983,11 @@ module.exports = function(app) {
 				price: $scope.addMenuItemPrice,
 				pictures: [media.images.standard_resolution.url],
 				description: $scope.addMenuItemDesc,
+				visible: true,
 				timesOrdered: 0,
 				owner: $scope.user._id,
 				references: [media.link] // This property stores unique URLs for posts
 			};
-
-			// if media has caption
-			if(media.caption) {
-				menuItem.caption = media.caption.text;
-			}
-			else {
-				menuItem.caption = '';
-			}
 
 			console.log({menuItem: menuItem});
 
@@ -33032,11 +33025,38 @@ module.exports = function(app) {
 
 	
 
-	app.controller('MenuItemCtrl', function($scope, $http, $state, Provider, Menu) {
+	app.controller('MenuItemCtrl', function($scope, $http, $state, Menu) {
+
+		// Read item ID in the URL and load from DB
 		Menu.getItem($state.params.id, function(error, item) {
 			if(error) console.log(error);
 			$scope.item = item;
 		});
+
+		// This var is used for loding spinner state
+		$scope.loading;
+
+		// Hide item and update in DB
+		$scope.hideItem = function(item) {
+			$scope.loading = true;
+			item.visible = false;
+			Menu.updateItem(item, function(error, item) {
+				if(error) return console.log(error);
+				$scope.item = item;
+				$scope.loading = false;
+			});
+		};
+
+		// Show item and update in DB
+		$scope.showItem = function(item) {
+			$scope.loading = true;
+			item.visible = true;
+			Menu.updateItem(item, function(error, item) {
+				if(error) return console.log(error);
+				$scope.item = item;
+				$scope.loading = false;
+			});
+		};
 	});
 
 }
@@ -33173,6 +33193,12 @@ module.exports = function(app) {
 			},
 			getItem: function(menuItemID, callback) {
 				$http.get('/api/menu/item/' + menuItemID).success(function(response) {
+					if(response.error) { return callback(response.error, null) }
+					if(response.item) { return callback(null, response.item) }
+				});
+			},
+			updateItem: function(menuItem, callback) {
+				$http.put('/api/menu/item/' + menuItem._id, menuItem).success(function(response) {
 					if(response.error) { return callback(response.error, null) }
 					if(response.item) { return callback(null, response.item) }
 				});

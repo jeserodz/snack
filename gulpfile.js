@@ -18,7 +18,7 @@ gulp.task('watch', ['start'], function() {
 	gulp.watch('./*.js', ['start']);
 	gulp.watch('./api/*.js', ['start']);
 	gulp.watch('./models/*.js', ['start']);
-	gulp.watch('./public/js/*.js', ['start']);
+	gulp.watch('./public/js/*.js', ['browserify']);
 	gulp.watch('./public/**/*.html', ['browserify']);
 });
 
