@@ -46,13 +46,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
           templateUrl: "templates/dashboard.menu.html",
           controller: 'MenuCtrl'
         })
-            .state('dashboard.menu.list', {
-              url: '/list',
-              templateUrl: "templates/dashboard.menu.list.html"
-            })
             .state('dashboard.menu.add', {
               url: '/add',
               templateUrl: "templates/dashboard.menu.add.html"
+            })
+            .state('dashboard.menu.item', {
+              url: '/item/:id',
+              templateUrl: "templates/dashboard.menu.item.html",
+              controller: 'MenuItemCtrl'
             })
 
         // States for Orders

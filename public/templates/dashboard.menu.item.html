@@ -1,0 +1,134 @@
+<!-- Main content -->
+<section class="content">
+
+  <!-- Default box -->
+  <div class="box box-warning" style="min-height: 100%">
+    <div class="box-header with-border">
+      <h3 class="box-title">
+        <a href="#/dashboard/menu"><i class="ion ion-arrow-left-a" style="font-size:large; margin-right:10pt"></i></a> 
+        {{item.name}}
+      </h3>
+      <div class="box-tools pull-right">
+        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+      </div>
+    </div>
+    <div class="box-body">
+      <div class="row">
+        <div class="col-sm-4">
+          <img class="thumbnail" style="width:100%" src="{{item.pictures[0]}}">
+          <button class="btn btn-block btn-default"><i class="ion ion-eye-disabled"></i> Ocultar del Menú</button>
+          <button class="btn btn-block btn-danger"><i class="ion ion-close"></i> Remover del Menú</button>
+        </div>
+        <div class="col-sm-8">
+          <!-- Item Details Box -->
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Detalles del Plato</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <strong><i class="ion ion-information-circled"></i>  Nombre</strong>
+              <p class="text-muted">{{item.name}}</p>
+              <hr>
+
+              <strong><i class="ion ion-cash"></i> Precio</strong>
+              <p class="text-muted">${{item.price}}</p>
+              <hr>
+
+              <strong><i class="ion ion-quote"></i> Descripción</strong>
+              <p class="text-muted">{{item.description}}</p>
+              <hr>
+
+              <strong><i class="ion ion-stats-bars"></i> Órdenes</strong>
+              <p class="text-muted">Este plato se ha ordenado {{item.timesOrdered}} veces</p>
+              <hr>
+
+              <strong><i class="ion ion-images"></i> Fotos</strong>
+              <p class="text-muted">
+                <div class="row">
+                  <div class="col-xs-4 col-sm-3" ng-repeat="picture in item.pictures">
+                    <img src="{{picture}}" style="width:100%" class="thumbnail">
+                  </div>
+                </div>
+              </p>
+              <hr>
+
+              <strong><i class="ion ion-pound"></i> ID</strong>
+              <p class="text-muted">{{item._id}}</p>
+            </div><!-- /.box-body -->
+          </div><!-- /. Item details box -->
+        </div>
+      </div>
+    </div><!-- /.box-body -->
+    <div class="overlay" ng-show="!feed.medias">
+      <i class="fa fa-refresh fa-spin"></i>
+    </div>
+  </div><!-- /.box -->
+
+
+  <!-- Add New Menu Item Modal -->
+  <div class="modal modal-danger fade" id="addNewMenuItemModal" tabindex="-1" role="dialog" aria-labelledby="Add New Menu Item">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title text-center" id="myModalLabel"><i class="ion ion-pizza"></i> Nuevo Plato</i></h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <table>
+              <td class="col-sm-2 col-xs-2 text-center">
+                  <a ng-click="changeModalItem(-1)" style="color:#fff; font-size:xx-large"><i class="ion ion-android-arrow-dropleft-circle"></i></a>
+              </td>
+              <td class="col-sm-8 col-xs-8">
+                  <div class="row"> 
+                    <div class="col-xs-8 col-xs-offset-2">
+                      <img src="{{feed.medias[addIndex].images.standard_resolution.url}}" style="width:100%; box-shadow:rgba(0, 0, 0, 0.27) 1px 1px 12px"/>
+                    </div>
+                  </div>
+                  <form>
+                    <div class="form-group">
+                      <label for="addMenuItemName">
+                        <h4>Nombre del Plato
+                        <small style="color:#ccc">({{feed.medias[addIndex].caption.text || ' '}})</small></h4> 
+                      </label>
+                      <input type="text" 
+                          class="form-control" 
+                          ng-model="$parent.addMenuItemName" 
+                          ng-change="checkAddItemRequirements()" 
+                          placeholder="Entra el nombre del plato...">
+                    </div>
+                    <div class="form-group">
+                      <label for="addMenuItemPrice"><h4>Precio del Plato</h4></label>
+                      <input type="number" 
+                          class="form-control" 
+                          ng-model="$parent.addMenuItemPrice" 
+                          ng-change="checkAddItemRequirements()" 
+                          placeholder="Entra el precio del plato...">
+                    </div>
+                    <div class="form-group">
+                      <label for="addMenuItemDesc"><h4>Descripción del Plato</h4></label>
+                      <input type="text" 
+                          class="form-control" 
+                          ng-model="$parent.addMenuItemDesc" 
+                          ng-change="checkAddItemRequirements()" 
+                          placeholder="Cómo es este plato? (ingredientes, etc...)">
+                    </div>
+                    <div class="form-group">
+                      <button class="btn btn-block btn-warning" ng-disabled="$parent.addItemMissingFields" ng-click="createMenuItem()">Agregar al Menú</button>
+                    </div>
+                  </form>
+              </td>
+              <td class="col-sm-2 col-xs-2 text-center">
+                <a ng-click="changeModalItem(1)" style="color:#fff; font-size:xx-large"><i class="ion ion-android-arrow-dropright-circle"></i></a>
+              </td>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /. Add New Menu Item Modal -->
+
+</section><!-- .content -->

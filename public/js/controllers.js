@@ -147,4 +147,14 @@ module.exports = function(app) {
 			}
 		};//.checkAddItemRequirements()
 	});
+
+	
+
+	app.controller('MenuItemCtrl', function($scope, $http, $state, Provider, Menu) {
+		Menu.getItem($state.params.id, function(error, item) {
+			if(error) console.log(error);
+			$scope.item = item;
+		});
+	});
+
 }

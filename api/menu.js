@@ -27,9 +27,6 @@ var menuAPI = function(wagner) {
 		};
 	}));
 
-
-
-
 	// Get the menu list
 	menu.get('/', wagner.invoke(function(User, Menu) {		
 
@@ -46,6 +43,15 @@ var menuAPI = function(wagner) {
 		};
 	}));
 	
+	// Get a specific menu item by ID
+	menu.get('/item/:id', wagner.invoke(function(Menu) {
+		return function(req, res) {
+			Menu.findOne({ _id: req.params.id }, function(err, item) {
+				if(err) { return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error: err }); }
+				return res.json({ item: item });
+			});
+		};
+	}));
 	return menu;
 };
 

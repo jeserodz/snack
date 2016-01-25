@@ -33029,6 +33029,16 @@ module.exports = function(app) {
 			}
 		};//.checkAddItemRequirements()
 	});
+
+	
+
+	app.controller('MenuItemCtrl', function($scope, $http, $state, Provider, Menu) {
+		Menu.getItem($state.params.id, function(error, item) {
+			if(error) console.log(error);
+			$scope.item = item;
+		});
+	});
+
 }
 },{}],5:[function(require,module,exports){
 module.exports = function(app) {
@@ -33100,13 +33110,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
           templateUrl: "templates/dashboard.menu.html",
           controller: 'MenuCtrl'
         })
-            .state('dashboard.menu.list', {
-              url: '/list',
-              templateUrl: "templates/dashboard.menu.list.html"
-            })
             .state('dashboard.menu.add', {
               url: '/add',
               templateUrl: "templates/dashboard.menu.add.html"
+            })
+            .state('dashboard.menu.item', {
+              url: '/item/:id',
+              templateUrl: "templates/dashboard.menu.item.html",
+              controller: 'MenuItemCtrl'
             })
 
         // States for Orders
@@ -33158,6 +33169,12 @@ module.exports = function(app) {
 				$http.post('/api/menu', menuItem).success(function(response) {
 					if(response.error) { return callback(response.error, null) }
 					if(response.menu) { return callback(null, response.menu) };
+				});
+			},
+			getItem: function(menuItemID, callback) {
+				$http.get('/api/menu/item/' + menuItemID).success(function(response) {
+					if(response.error) { return callback(response.error, null) }
+					if(response.item) { return callback(null, response.item) }
 				});
 			}
 		};
