@@ -76,18 +76,21 @@ module.exports = function(app) {
 
 		// Change the selected media Index
 		$scope.changeModalItem = function(direction) {
+			console.log(" ");
+			console.log($scope.addIndex);
 			if(direction == 1) {
 				if($scope.addIndex + 1 < $scope.feed.medias.length)
 					$scope.addIndex++;
-				if($scope.addIndex + 1 == $scope.feed.medias.length)
+				else if($scope.addIndex + 1 == $scope.feed.medias.length)
 					$scope.addIndex = 0;
 			}
 			if(direction == -1) {
 				if($scope.addIndex - 1 >= 0)
 					$scope.addIndex--;
-				if($scope.addIndex - 1 < 0)
+				else if($scope.addIndex - 1 < 0)
 					$scope.addIndex = $scope.feed.medias.length - 1;
 			}
+			console.log($scope.addIndex);
 		};
 
 		// Create new Menu item and post to API
