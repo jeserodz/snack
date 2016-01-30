@@ -1,6 +1,8 @@
 <!-- Main content -->
 <section class="content">
 
+<ui-view>
+
   <!-- Default box -->
   <div class="box box-warning" style="min-height: 100%">
     <div class="box-header with-border">
@@ -27,9 +29,11 @@
                 <button class="btn btn-xs btn-flat btn-danger" data-toggle="modal" data-target="#addNewMenuItemModal" ng-click="addItemIndex($index)">
                   <i class="fa fa-plus"> Nuevo Plato</i>
                 </button>
-                <button class="btn btn-xs btn-flat bg-navy" ng-show='false'>
-                  <i class="fa fa-camera-retro"> Agregar a Plato</i>
-                </button>
+                <a href="#/dashboard/menu/add/existing?media={{$index}}">
+                  <button class="btn btn-xs btn-flat bg-orange">
+                    <i class="fa fa-camera-retro"> Agregar a Plato</i>
+                  </button>
+                </a>
               </span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -107,5 +111,7 @@
       </div>
     </div>
   </div><!-- /. Add New Menu Item Modal -->
+
+</ui-view>
 
 </section><!-- .content -->

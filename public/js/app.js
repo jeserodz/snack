@@ -48,8 +48,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         })
             .state('dashboard.menu.add', {
               url: '/add',
-              templateUrl: "templates/dashboard.menu.add.html"
+              templateUrl: "templates/dashboard.menu.add.html",
+              controller: 'MenuAddCtrl'
             })
+              .state('dashboard.menu.add.existing', {
+                url: '/existing?media',
+                templateUrl: "templates/dashboard.menu.add.existing.html",
+                controller: 'MenuAddExistingCtrl'
+              })
+
             .state('dashboard.menu.item', {
               url: '/item/:id',
               templateUrl: "templates/dashboard.menu.item.html",

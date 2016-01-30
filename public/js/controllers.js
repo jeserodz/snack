@@ -1,6 +1,7 @@
 module.exports = function(app) {
 
 	app.controller('MainController', function($scope, $state) {
+
 		$scope.user = '';
 	});
 
@@ -29,7 +30,6 @@ module.exports = function(app) {
 
 			// Check the Menu for restaurants
 			if($scope.user.type == 'restaurant') {
-				console.log('valid');
 				Menu.get(function(err, menu) {
 					if(err) {
 						return console.log(err);
@@ -44,6 +44,19 @@ module.exports = function(app) {
 
 	app.controller('MenuCtrl', function($scope, $http, $state, Provider, Menu) {
 
+		// Get the user menu
+		// The API returns posts that are not already part of the user menu
+		Menu.get(function(err, menu) {
+			if(err) {
+				console.log(err);
+			}
+			if(menu) {
+				$scope.user.data.menu = menu;
+			}
+		});
+	});
+
+	app.controller('MenuAddCtrl', function($scope, $http, $state, Provider, Menu) {
 		// Get the social feed for the user
 		// The API shall returns posts that are not already part of the user menu
 		Provider.feed(function(err, feed) {
@@ -57,17 +70,6 @@ module.exports = function(app) {
 			}
 		});
 
-		// Get the user menu
-		// The API returns posts that are not already part of the user menu
-		Menu.get(function(err, menu) {
-			if(err) {
-				console.log(err);
-			}
-			if(menu) {
-				$scope.user.data.menu = menu;
-			}
-		});
-
 		// Index of selected media for Add Menu Item Modal
 		$scope.addIndex;
 		$scope.addItemIndex = function(index) {
@@ -76,8 +78,6 @@ module.exports = function(app) {
 
 		// Change the selected media Index
 		$scope.changeModalItem = function(direction) {
-			console.log(" ");
-			console.log($scope.addIndex);
 			if(direction == 1) {
 				if($scope.addIndex + 1 < $scope.feed.medias.length)
 					$scope.addIndex++;
@@ -90,7 +90,6 @@ module.exports = function(app) {
 				else if($scope.addIndex - 1 < 0)
 					$scope.addIndex = $scope.feed.medias.length - 1;
 			}
-			console.log($scope.addIndex);
 		};
 
 		// Create new Menu item and post to API
@@ -110,15 +109,12 @@ module.exports = function(app) {
 				references: [media.link] // This property stores unique URLs for posts
 			};
 
-			console.log({menuItem: menuItem});
-
 			$http.post('/api/menu', menuItem).success(function(response) {
 				if(response.error)
 					return console.log(error);
 
 				// Update user menu client-side
 				$scope.user.data.menu = response.menu;
-				console.log($scope.user.data.menu);
 
 				// Update feed client-side
 				$http.get('/api/provider/feed').success(function(response) {
@@ -144,7 +140,38 @@ module.exports = function(app) {
 		};//.checkAddItemRequirements()
 	});
 
-	
+	app.controller('MenuAddExistingCtrl', function($scope, $http, $state, Provider, Menu) {
+		//If user has not loaded the Add Item screen, go there...
+		if (!$scope.$parent.feed) 
+			return $state.go('dashboard.menu.add');
+
+		// Get the Feed item index
+		$scope.feedItem = $scope.feed.medias[$state.params.media];
+
+		// Get menu items
+		Menu.get(function(err, menu) {
+			if(err) return console.log(err);
+			$scope.menu = menu;
+		});
+
+		// addPicturetoItem
+		// 	takes the index of the item on the menu to add the picture
+		$scope.addPicturetoItem = function(menuItemIndex) {
+			// get the item object from the menu
+			var menuItem = $scope.menu[menuItemIndex];
+			// push the image url and the link url (from the Provider feed)
+			menuItem.pictures.push($scope.feedItem.images.standard_resolution.url);
+			menuItem.references.push($scope.feedItem.link);
+			// update menu item in db
+			Menu.updateItem(menuItem, function(err, item) {
+				if(err) console.log(err);
+				if(item) {
+					// If update successfull, go to item details view
+					$state.go('dashboard.menu.item', { 'id': item._id });
+				}
+			});
+		}
+	});
 
 	app.controller('MenuItemCtrl', function($scope, $http, $state, $timeout, Menu) {
 
