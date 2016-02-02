@@ -1,6 +1,7 @@
 var session = require('express-session');
 var passport = require('passport');
 var InstagramStrategy = require('passport-instagram');
+var googleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 module.exports = function(Config, User, app) {
 
@@ -42,6 +43,42 @@ module.exports = function(Config, User, app) {
 	  }
 	));
 
+	// - Google Strategy
+	passport.use(new googleStrategy({
+			clientID: Config.GOOGLE_CLIENT_ID,
+	    clientSecret: Config.GOOGLE_CLIENT_SECRET,
+	    callbackURL: "http://localhost:3000/auth/google/callback"
+		}, function(accessToken, refreshToken, profile, done) {
+			User.findOneAndUpdate(
+	    	// query by example
+	    { 
+	    	'oauth.id': profile.id
+	    },
+	    	// update or create user document with latest data
+	    {
+	    	$set: {
+					username: profile.id, // google dont use username
+					displayName: profile.displayName,
+					type: 'customer',
+					picture: 'http://www.bonifaciostraitpilots.eu/Cms_Data/Contents/BSP-en/Media/img/man-icon.png',
+					oauth: {
+						provider: 'google',
+						id: profile.id,
+						accessToken: accessToken
+					}
+				}
+	    },
+	    	// options: create new if don't exists, return updated version
+	    {
+	    	'new': true,
+	    	upsert: true
+	    },
+	    function (err, user) {
+	      return done(err, user);
+	    });
+		}
+	));
+
 	// passport 
 	passport.serializeUser(function(user, done) {
 	  done(null, user.id);
@@ -79,6 +116,15 @@ module.exports = function(Config, User, app) {
 
 	app.get('/auth/instagram/callback', 
 	  passport.authenticate('instagram', { failureRedirect: '/authFailed' }),
+	  function(req, res) {
+	    // Successful authentication, redirect home.
+	    res.redirect('/');
+	  });
+
+	app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+
+	app.get('/auth/google/callback', 
+	  passport.authenticate('google', { failureRedirect: '/authFailed' }),
 	  function(req, res) {
 	    // Successful authentication, redirect home.
 	    res.redirect('/');

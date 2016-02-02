@@ -33055,13 +33055,16 @@ module.exports = function(app) {
 		}
 	});
 
-	app.controller('MenuItemCtrl', function($scope, $http, $state, $timeout, Menu) {
+	app.controller('MenuItemCtrl', function($scope, $http, $state, $location, $timeout, Menu) {
 
 		// Read item ID in the URL and load from DB
 		Menu.getItem($state.params.id, function(error, item) {
 			if(error) console.log(error);
 			$scope.item = item;
 		});
+
+		$scope.location = $location.url();
+		console.log($scope.location);
 
 		// This var is used for loding spinner state
 		$scope.loading;
