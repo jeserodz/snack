@@ -130,4 +130,9 @@ module.exports = function(Config, User, app) {
 	    res.redirect('/');
 	  });
 
+	app.get('/auth/logout', function(req, res) {
+		req.logout();
+		res.redirect('/');
+	});
+
 };
