@@ -1,13 +1,13 @@
 module.exports = function(app) {
 
-	app.controller('MainController', function($scope, $state, User) {
+	app.controller('MainController', function($scope, $state, $location, User) {
 
 		// Check if User is logged-in
 		User.get(function(err, user) { 
 			// If not logged-in, go to login page
 			if(err) {
 				console.log(err);
-				return $state.go('login');
+				return window.location = "/login.html";
 			}
 
 			// If logged-in, check user type
