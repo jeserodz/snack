@@ -24,20 +24,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
     // State for login view
     .state('login', {
       url: "/login",
-      templateUrl: "templates/login.html",
-      controller: "LoginController"
+      templateUrl: "templates/login.html"
     })
 
     // States for Restaurant users
     .state('dashboard', {
       url: "/dashboard",
-      templateUrl: "templates/dashboard.html",
-      controller: 'DashboardController'
+      templateUrl: "templates/dashboard.html"
     })
         // States for General
         .state('dashboard.general', {
           url: '/general',
-          templateUrl: "templates/dashboard.general.html"
+          templateUrl: "templates/dashboard.general.html",
+          controller: 'DashboardController'
         })
 
         // States for Menu

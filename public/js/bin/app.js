@@ -32882,46 +32882,35 @@ module.exports = angular;
 },{"./angular":2}],4:[function(require,module,exports){
 module.exports = function(app) {
 
-	app.controller('MainController', function($scope, $state) {
+	app.controller('MainController', function($scope, $state, User) {
 
-		$scope.user = '';
-	});
-
-	app.controller('LoginController', function($scope, $http, $state, User) {
-		// Check in API if user is logged in
-		User.get(function(err, user) {
+		// Check if User is logged-in
+		User.get(function(err, user) { 
+			// If not logged-in, go to login page
 			if(err) {
 				console.log(err);
+				return $state.go('login');
 			}
-			if(user){
+
+			// If logged-in, check user type
+			else if (user) {
 				console.log(user);
-				return $state.go('dashboard.general');
-			}
+				$scope.user = user;
+				if($scope.user.type == 'restaurant') {
+					// Load the restaurant dashboard
+					return $state.go('dashboard.general');
+				}
+				if($scope.user.type == 'customer') {
+					// Loan the customers view
+					return $state.go('app.general');
+				}
+			};
 		});
 	});
 
-	app.controller('DashboardController', function($scope, $http, $state, User, Menu) {
-		// Check in API if user is logged in
-		User.get(function(err, user) {
-			if(err) {
-				return $state.go('login');
-			}
-			else {
-				$scope.user = user;
-			}
 
-			// Check the Menu for restaurants
-			if($scope.user.type == 'restaurant') {
-				Menu.get(function(err, menu) {
-					if(err) {
-						return console.log(err);
-					}
-					else {
-						return $scope.user.data.menu = menu;
-					}
-				});
-			}
-		});
+	app.controller('DashboardController', function($scope, $http, $state, User, Menu) {
+		
 	});
 
 	app.controller('MenuCtrl', function($scope, $http, $state, Provider, Menu) {
@@ -33156,20 +33145,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
     // State for login view
     .state('login', {
       url: "/login",
-      templateUrl: "templates/login.html",
-      controller: "LoginController"
+      templateUrl: "templates/login.html"
     })
 
     // States for Restaurant users
     .state('dashboard', {
       url: "/dashboard",
-      templateUrl: "templates/dashboard.html",
-      controller: 'DashboardController'
+      templateUrl: "templates/dashboard.html"
     })
         // States for General
         .state('dashboard.general', {
           url: '/general',
-          templateUrl: "templates/dashboard.general.html"
+          templateUrl: "templates/dashboard.general.html",
+          controller: 'DashboardController'
         })
 
         // States for Menu
