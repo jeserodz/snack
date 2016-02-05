@@ -34508,26 +34508,26 @@ module.exports = function(app) {
 
 }
 },{}],5:[function(require,module,exports){
-// module.exports = function(app) {
-// 	app.directive('fsHeader', function() {
-// 		return {
-// 			templateUrl: '../templates/fs-header.html'
-// 		};
-// 	});
+module.exports = function(app) {
+	app.directive('navbarCustomMenu', function() {
+		return {
+			templateUrl: '../templates/navbar-custom-menu.html'
+		};
+	});
 
-// 	app.directive('fsSidebar', function() {
-// 		return {
-// 			templateUrl: '../templates/fs-sidebar.html'
-// 		};
-// 	});
+	// app.directive('fsSidebar', function() {
+	// 	return {
+	// 		templateUrl: '../templates/fs-sidebar.html'
+	// 	};
+	// });
 
-// 	app.directive('fsFooter', function() {
-// 		return {
-// 			templateUrl: '../templates/fs-footer.html'
-// 		};
-// 	});
+	// app.directive('fsFooter', function() {
+	// 	return {
+	// 		templateUrl: '../templates/fs-footer.html'
+	// 	};
+	// });
 
-// };
+};
 },{}],6:[function(require,module,exports){
 var angular = require('angular');
 var uiRouter = require('angular-ui-router');
