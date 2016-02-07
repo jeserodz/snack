@@ -1,5 +1,6 @@
 var angular = require('angular');
 var uiRouter = require('angular-ui-router');
+var AdminLTE = require('./AdminLTE');
 
 // Initialize AngularJS application
 var app = angular.module('FoodStalker', ['ng','ui.router']);
@@ -68,3 +69,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
           templateUrl: "templates/dashboard.orders.html"
         });
 });
+
+// AdminLTE event listeners registerer
+AdminLTE();

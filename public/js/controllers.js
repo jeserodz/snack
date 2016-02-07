@@ -3,11 +3,11 @@ module.exports = function(app) {
 	app.controller('MainController', function($scope, $state, $location, User) {
 
 		// Check if User is logged-in
-		User.get(function(err, user) { 
+		User.get(function(err, user) {
 			// If not logged-in, go to login page
 			if(err) {
 				console.log(err);
-				return window.location = "/login.html";
+				$state.go('login');
 			}
 
 			// If logged-in, check user type
@@ -16,11 +16,11 @@ module.exports = function(app) {
 				$scope.user = user;
 				if($scope.user.type == 'restaurant') {
 					// Load the restaurant dashboard
-					return $state.go('dashboard.general');
+					$state.go('dashboard.general');
 				}
 				if($scope.user.type == 'customer') {
 					// Loan the customers view
-					return $state.go('app.general');
+					$state.go('app.general');
 				}
 			};
 		});
@@ -28,7 +28,7 @@ module.exports = function(app) {
 
 
 	app.controller('DashboardController', function($scope, $http, $state, User, Menu) {
-		
+
 	});
 
 	app.controller('MenuCtrl', function($scope, $http, $state, Provider, Menu) {
@@ -55,7 +55,7 @@ module.exports = function(app) {
 				return $state.go('login');
 			}
 			if(feed) {
-				$scope.feed = feed; 
+				$scope.feed = feed;
 			}
 		});
 
@@ -131,7 +131,7 @@ module.exports = function(app) {
 
 	app.controller('MenuAddExistingCtrl', function($scope, $http, $state, Provider, Menu) {
 		//If user has not loaded the Add Item screen, go there...
-		if (!$scope.$parent.feed) 
+		if (!$scope.$parent.feed)
 			return $state.go('dashboard.menu.add');
 
 		// Get the Feed item index
