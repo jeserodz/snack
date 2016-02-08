@@ -31,5 +31,5 @@ module.exports = function() {
 			window.clearInterval(intervalID);
 			console.log("Cleared AdminLTE registering interval.");
 		}
-	}, 1000)
+	}, 300)
 };

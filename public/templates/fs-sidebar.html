@@ -34,7 +34,8 @@
             <a href="/#/dashboard/menu"><i class="fa fa-cutlery"></i> <span>Menú</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
               <li><a href="/#/dashboard/menu">Ver Menú</a></li>
-              <li><a href="/#/dashboard/menu/add">Agregar</a></li>
+              <li ng-show="user.oauth.provider=='instagram'"><a href="/#/dashboard/menu/addinstagram">Agregar platos con Instagram</a></li>
+              <li><a href="/#/dashboard/menu/addlocal">Agregar un Plato</a></li>
             </ul>
             </li>
             <li class="treeview">

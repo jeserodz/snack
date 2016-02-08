@@ -6,8 +6,8 @@ var express = require('express'),
 
 // Config
 wagner.factory('Config', function() {
-	return require('./config.js')
-})
+	return require('./config.js');
+});
 
 // Initialize models
 require('./models')(wagner);

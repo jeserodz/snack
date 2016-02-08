@@ -12,7 +12,7 @@ module.exports = function(app) {
 
 			// If logged-in, check user type
 			else if (user) {
-				console.log(user);
+
 				$scope.user = user;
 				if($scope.user.type == 'restaurant') {
 					// Load the restaurant dashboard
@@ -22,14 +22,14 @@ module.exports = function(app) {
 					// Loan the customers view
 					$state.go('app.general');
 				}
-			};
+
+				// AdminLTE event listeners registerer
+				require('./AdminLTE')();
+			}
 		});
 	});
 
-
-	app.controller('DashboardController', function($scope, $http, $state, User, Menu) {
-
-	});
+	app.controller('DashboardController', function($scope, $http, $state, User, Menu) {});
 
 	app.controller('MenuCtrl', function($scope, $http, $state, Provider, Menu) {
 
@@ -45,7 +45,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.controller('MenuAddCtrl', function($scope, $http, $state, Provider, Menu) {
+	app.controller('MenuAddInstagramCtrl', function($scope, $http, $state, Provider, Menu) {
 		// Get the social feed for the user
 		// The API shall returns posts that are not already part of the user menu
 		Provider.feed(function(err, feed) {
@@ -60,7 +60,7 @@ module.exports = function(app) {
 		});
 
 		// Index of selected media for Add Menu Item Modal
-		$scope.addIndex;
+		$scope.addIndex = null;
 		$scope.addItemIndex = function(index) {
 			$scope.addIndex = index;
 		};
@@ -82,9 +82,9 @@ module.exports = function(app) {
 		};
 
 		// Create new Menu item and post to API
-		$scope.addMenuItemName;
-		$scope.addMenuItemPrice;
-		$scope.addMenuItemDesc;
+		$scope.addMenuItemName = null;
+		$scope.addMenuItemPrice = null;
+		$scope.addMenuItemDesc = null;
 		$scope.createMenuItem = function() {
 			var media = $scope.feed.medias[$scope.addIndex];
 			var menuItem = {
@@ -129,7 +129,7 @@ module.exports = function(app) {
 		};//.checkAddItemRequirements()
 	});
 
-	app.controller('MenuAddExistingCtrl', function($scope, $http, $state, Provider, Menu) {
+	app.controller('MenuAddInstagramExistingCtrl', function($scope, $http, $state, Provider, Menu) {
 		//If user has not loaded the Add Item screen, go there...
 		if (!$scope.$parent.feed)
 			return $state.go('dashboard.menu.add');
@@ -159,7 +159,27 @@ module.exports = function(app) {
 					$state.go('dashboard.menu.item', { 'id': item._id });
 				}
 			});
-		}
+		};
+	});
+
+	app.controller('MenuAddLocalCrtl', function($scope, $state, Upload, Menu) {
+	  // upload on file select or drop
+	  $scope.upload = function(file) {
+	    Upload.upload({
+	      url: 'upload/url',
+	      data: {
+	        file: file,
+	        'username': $scope.user.username
+	      }
+	    }).then(function(resp) {
+	      console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+	    }, function(resp) {
+	      console.log('Error status: ' + resp.status);
+	    }, function(evt) {
+	      var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+	      console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+	    });
+	  };
 	});
 
 	app.controller('MenuItemCtrl', function($scope, $http, $state, $location, $timeout, Menu) {
@@ -174,7 +194,7 @@ module.exports = function(app) {
 		console.log($scope.location);
 
 		// This var is used for loding spinner state
-		$scope.loading;
+		$scope.loading = null;
 
 		// Hide item and update in DB
 		$scope.hideItem = function(item) {
@@ -208,10 +228,10 @@ module.exports = function(app) {
 				// Timeout needed because bootstrap modal is slow to dissapear
 				$timeout(function() {
 					$scope.loading = false;
-					$state.go('dashboard.menu')
+					$state.go('dashboard.menu');
 				}, 1000);
 			});
 		};
 	});
 
-}
+};

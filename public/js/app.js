@@ -1,9 +1,9 @@
 var angular = require('angular');
 var uiRouter = require('angular-ui-router');
-var AdminLTE = require('./AdminLTE');
+var ngFileUpload = require('ng-file-upload');
 
 // Initialize AngularJS application
-var app = angular.module('FoodStalker', ['ng','ui.router']);
+var app = angular.module('FoodStalker', ['ng','ui.router', ngFileUpload]);
 
 // Setup Services
 require('./services')(app);
@@ -46,16 +46,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
           templateUrl: "templates/dashboard.menu.html",
           controller: 'MenuCtrl'
         })
-            .state('dashboard.menu.add', {
-              url: '/add',
-              templateUrl: "templates/dashboard.menu.add.html",
-              controller: 'MenuAddCtrl'
+            // States for adding plates with Instagram
+            .state('dashboard.menu.addInstagram', {
+              url: '/addinstagram',
+              templateUrl: "templates/dashboard.menu.addinstagram.html",
+              controller: 'MenuAddInstagramCtrl'
             })
-              .state('dashboard.menu.add.existing', {
+              .state('dashboard.menu.addInstagram.existing', {
                 url: '/existing?media',
-                templateUrl: "templates/dashboard.menu.add.existing.html",
-                controller: 'MenuAddExistingCtrl'
+                templateUrl: "templates/dashboard.menu.addinstagram.existing.html",
+                controller: 'MenuAddInstagramExistingCtrl'
               })
+
+            // TODO: States for adding plates locally
+            .state('dashboard.menu.addLocal', {
+              url: '/addlocal',
+              templateUrl: 'templates/dashboard.menu.addlocal.html',
+              controller: 'MenuAddLocalCrtl'
+            })
 
             .state('dashboard.menu.item', {
               url: '/item/:id',
@@ -69,6 +77,3 @@ app.config(function($stateProvider, $urlRouterProvider) {
           templateUrl: "templates/dashboard.orders.html"
         });
 });
-
-// AdminLTE event listeners registerer
-AdminLTE();
