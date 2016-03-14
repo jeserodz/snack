@@ -36257,282 +36257,232 @@ ngFileUpload.service('UploadExif', ['UploadResize', '$q', function (UploadResize
 require('./dist/ng-file-upload-all');
 module.exports = 'ngFileUpload';
 },{"./dist/ng-file-upload-all":4}],6:[function(require,module,exports){
-/*! AdminLTE app.js
- * ================
- * Main JS application file for AdminLTE v2. This file
- * should be included in all pages. It controls some layout
- * options and implements exclusive AdminLTE plugins.
- *
- * @Author  Almsaeed Studio
- * @Support <http://www.almsaeedstudio.com>
- * @Email   <support@almsaeedstudio.com>
- * @version 2.3.0
- * @license MIT <http://opensource.org/licenses/MIT>
- */
+module.exports = function(app) {
 
- /* Execute this as require('AdminLTE')(); */
-module.exports = function() {
-	var done = false; // track one time execution
-	// set an interval and get intervalID (used for clearing the inverval)
-	var intervalID = window.setInterval(function() {
-		// if the script is not executed...
-		if (!done) {
-			// check if the element with class 'sidebar-toggle' is in the DOM
-			if(document.getElementsByClassName('sidebar-toggle')) {
-				console.log('AdminLTE: Registering event listeners...');
-				function _init(){"use strict";$.AdminLTE.layout={activate:function(){var a=this;a.fix(),a.fixSidebar(),$(window,".wrapper").resize(function(){a.fix(),a.fixSidebar()})},fix:function(){var a=$(".main-header").outerHeight()+$(".main-footer").outerHeight(),b=$(window).height(),c=$(".sidebar").height();if($("body").hasClass("fixed"))$(".content-wrapper, .right-side").css("min-height",b-$(".main-footer").outerHeight());else{var d;b>=c?($(".content-wrapper, .right-side").css("min-height",b-a),d=b-a):($(".content-wrapper, .right-side").css("min-height",c),d=c);var e=$($.AdminLTE.options.controlSidebarOptions.selector);"undefined"!=typeof e&&e.height()>d&&$(".content-wrapper, .right-side").css("min-height",e.height())}},fixSidebar:function(){return $("body").hasClass("fixed")?("undefined"==typeof $.fn.slimScroll&&window.console&&window.console.error("Error: the fixed layout requires the slimscroll plugin!"),void($.AdminLTE.options.sidebarSlimScroll&&"undefined"!=typeof $.fn.slimScroll&&($(".sidebar").slimScroll({destroy:!0}).height("auto"),$(".sidebar").slimscroll({height:$(window).height()-$(".main-header").height()+"px",color:"rgba(0,0,0,0.2)",size:"3px"})))):void("undefined"!=typeof $.fn.slimScroll&&$(".sidebar").slimScroll({destroy:!0}).height("auto"))}},$.AdminLTE.pushMenu={activate:function(a){var b=$.AdminLTE.options.screenSizes;$(a).on("click",function(a){a.preventDefault(),$(window).width()>b.sm-1?$("body").hasClass("sidebar-collapse")?$("body").removeClass("sidebar-collapse").trigger("expanded.pushMenu"):$("body").addClass("sidebar-collapse").trigger("collapsed.pushMenu"):$("body").hasClass("sidebar-open")?$("body").removeClass("sidebar-open").removeClass("sidebar-collapse").trigger("collapsed.pushMenu"):$("body").addClass("sidebar-open").trigger("expanded.pushMenu")}),$(".content-wrapper").click(function(){$(window).width()<=b.sm-1&&$("body").hasClass("sidebar-open")&&$("body").removeClass("sidebar-open")}),($.AdminLTE.options.sidebarExpandOnHover||$("body").hasClass("fixed")&&$("body").hasClass("sidebar-mini"))&&this.expandOnHover()},expandOnHover:function(){var a=this,b=$.AdminLTE.options.screenSizes.sm-1;$(".main-sidebar").hover(function(){$("body").hasClass("sidebar-mini")&&$("body").hasClass("sidebar-collapse")&&$(window).width()>b&&a.expand()},function(){$("body").hasClass("sidebar-mini")&&$("body").hasClass("sidebar-expanded-on-hover")&&$(window).width()>b&&a.collapse()})},expand:function(){$("body").removeClass("sidebar-collapse").addClass("sidebar-expanded-on-hover")},collapse:function(){$("body").hasClass("sidebar-expanded-on-hover")&&$("body").removeClass("sidebar-expanded-on-hover").addClass("sidebar-collapse")}},$.AdminLTE.tree=function(a){var b=this,c=$.AdminLTE.options.animationSpeed;$(document).on("click",a+" li a",function(a){var d=$(this),e=d.next();if(e.is(".treeview-menu")&&e.is(":visible"))e.slideUp(c,function(){e.removeClass("menu-open")}),e.parent("li").removeClass("active");else if(e.is(".treeview-menu")&&!e.is(":visible")){var f=d.parents("ul").first(),g=f.find("ul:visible").slideUp(c);g.removeClass("menu-open");var h=d.parent("li");e.slideDown(c,function(){e.addClass("menu-open"),f.find("li.active").removeClass("active"),h.addClass("active"),b.layout.fix()})}e.is(".treeview-menu")&&a.preventDefault()})},$.AdminLTE.controlSidebar={activate:function(){var a=this,b=$.AdminLTE.options.controlSidebarOptions,c=$(b.selector),d=$(b.toggleBtnSelector);d.on("click",function(d){d.preventDefault(),c.hasClass("control-sidebar-open")||$("body").hasClass("control-sidebar-open")?a.close(c,b.slide):a.open(c,b.slide)});var e=$(".control-sidebar-bg");a._fix(e),$("body").hasClass("fixed")?a._fixForFixed(c):$(".content-wrapper, .right-side").height()<c.height()&&a._fixForContent(c)},open:function(a,b){b?a.addClass("control-sidebar-open"):$("body").addClass("control-sidebar-open")},close:function(a,b){b?a.removeClass("control-sidebar-open"):$("body").removeClass("control-sidebar-open")},_fix:function(a){var b=this;$("body").hasClass("layout-boxed")?(a.css("position","absolute"),a.height($(".wrapper").height()),$(window).resize(function(){b._fix(a)})):a.css({position:"fixed",height:"auto"})},_fixForFixed:function(a){a.css({position:"fixed","max-height":"100%",overflow:"auto","padding-bottom":"50px"})},_fixForContent:function(a){$(".content-wrapper, .right-side").css("min-height",a.height())}},$.AdminLTE.boxWidget={selectors:$.AdminLTE.options.boxWidgetOptions.boxWidgetSelectors,icons:$.AdminLTE.options.boxWidgetOptions.boxWidgetIcons,animationSpeed:$.AdminLTE.options.animationSpeed,activate:function(a){var b=this;a||(a=document),$(a).on("click",b.selectors.collapse,function(a){a.preventDefault(),b.collapse($(this))}),$(a).on("click",b.selectors.remove,function(a){a.preventDefault(),b.remove($(this))})},collapse:function(a){var b=this,c=a.parents(".box").first(),d=c.find("> .box-body, > .box-footer, > form  >.box-body, > form > .box-footer");c.hasClass("collapsed-box")?(a.children(":first").removeClass(b.icons.open).addClass(b.icons.collapse),d.slideDown(b.animationSpeed,function(){c.removeClass("collapsed-box")})):(a.children(":first").removeClass(b.icons.collapse).addClass(b.icons.open),d.slideUp(b.animationSpeed,function(){c.addClass("collapsed-box")}))},remove:function(a){var b=a.parents(".box").first();b.slideUp(this.animationSpeed)}}}if("undefined"==typeof jQuery)throw new Error("AdminLTE requires jQuery");$.AdminLTE={},$.AdminLTE.options={navbarMenuSlimscroll:!0,navbarMenuSlimscrollWidth:"3px",navbarMenuHeight:"200px",animationSpeed:500,sidebarToggleSelector:"[data-toggle='offcanvas']",sidebarPushMenu:!0,sidebarSlimScroll:!0,sidebarExpandOnHover:!1,enableBoxRefresh:!0,enableBSToppltip:!0,BSTooltipSelector:"[data-toggle='tooltip']",enableFastclick:!0,enableControlSidebar:!0,controlSidebarOptions:{toggleBtnSelector:"[data-toggle='control-sidebar']",selector:".control-sidebar",slide:!0},enableBoxWidget:!0,boxWidgetOptions:{boxWidgetIcons:{collapse:"fa-minus",open:"fa-plus",remove:"fa-times"},boxWidgetSelectors:{remove:'[data-widget="remove"]',collapse:'[data-widget="collapse"]'}},directChat:{enable:!0,contactToggleSelector:'[data-widget="chat-pane-toggle"]'},colors:{lightBlue:"#3c8dbc",red:"#f56954",green:"#00a65a",aqua:"#00c0ef",yellow:"#f39c12",blue:"#0073b7",navy:"#001F3F",teal:"#39CCCC",olive:"#3D9970",lime:"#01FF70",orange:"#FF851B",fuchsia:"#F012BE",purple:"#8E24AA",maroon:"#D81B60",black:"#222222",gray:"#d2d6de"},screenSizes:{xs:480,sm:768,md:992,lg:1200}},$(function(){"use strict";$("body").removeClass("hold-transition"),"undefined"!=typeof AdminLTEOptions&&$.extend(!0,$.AdminLTE.options,AdminLTEOptions);var a=$.AdminLTE.options;_init(),$.AdminLTE.layout.activate(),$.AdminLTE.tree(".sidebar"),a.enableControlSidebar&&$.AdminLTE.controlSidebar.activate(),a.navbarMenuSlimscroll&&"undefined"!=typeof $.fn.slimscroll&&$(".navbar .menu").slimscroll({height:a.navbarMenuHeight,alwaysVisible:!1,size:a.navbarMenuSlimscrollWidth}).css("width","100%"),a.sidebarPushMenu&&$.AdminLTE.pushMenu.activate(a.sidebarToggleSelector),a.enableBSToppltip&&$("body").tooltip({selector:a.BSTooltipSelector}),a.enableBoxWidget&&$.AdminLTE.boxWidget.activate(),a.enableFastclick&&"undefined"!=typeof FastClick&&FastClick.attach(document.body),a.directChat.enable&&$(document).on("click",a.directChat.contactToggleSelector,function(){var a=$(this).parents(".direct-chat").first();a.toggleClass("direct-chat-contacts-open")}),$('.btn-group[data-toggle="btn-toggle"]').each(function(){var a=$(this);$(this).find(".btn").on("click",function(b){a.find(".btn.active").removeClass("active"),$(this).addClass("active"),b.preventDefault()})})}),function(a){"use strict";a.fn.boxRefresh=function(b){function c(a){a.append(f),e.onLoadStart.call(a)}function d(a){a.find(f).remove(),e.onLoadDone.call(a)}var e=a.extend({trigger:".refresh-btn",source:"",onLoadStart:function(a){return a},onLoadDone:function(a){return a}},b),f=a('<div class="overlay"><div class="fa fa-refresh fa-spin"></div></div>');return this.each(function(){if(""===e.source)return void(window.console&&window.console.log("Please specify a source first - boxRefresh()"));var b=a(this),f=b.find(e.trigger).first();f.on("click",function(a){a.preventDefault(),c(b),b.find(".box-body").load(e.source,function(){d(b)})})})}}(jQuery),function(a){"use strict";a.fn.activateBox=function(){a.AdminLTE.boxWidget.activate(this)}}(jQuery),function(a){"use strict";a.fn.todolist=function(b){var c=a.extend({onCheck:function(a){return a},onUncheck:function(a){return a}},b);return this.each(function(){"undefined"!=typeof a.fn.iCheck?(a("input",this).on("ifChecked",function(){var b=a(this).parents("li").first();b.toggleClass("done"),c.onCheck.call(b)}),a("input",this).on("ifUnchecked",function(){var b=a(this).parents("li").first();b.toggleClass("done"),c.onUncheck.call(b)})):a("input",this).on("change",function(){var b=a(this).parents("li").first();b.toggleClass("done"),a("input",b).is(":checked")?c.onCheck.call(b):c.onUncheck.call(b)})})}}(jQuery);
-				done = true; // script executed once
-				console.log('AdminLTE: Done!');
-			}
-		}
-		// else, if the script was executed one-time, clear the interval
-		else {
-			window.clearInterval(intervalID);
-			console.log("Cleared AdminLTE registering interval.");
-		}
-	}, 300)
+  app.controller('MainController', function($scope, $state, $location, User) {
+
+  });
+
+  app.controller('FrontpageController', function($scope, $state, $location) {
+    console.log("Hi there");
+    $('body').addClass('layout-top-nav');
+  });
+
+  app.controller('DashboardController', function($scope, $http, $state, User, Menu) {
+    $('body').removeClass('layout-top-nav');
+
+    // Check if User is logged-in
+    User.get(function(err, user) {
+      // If not logged-in, go to login page
+      if (err) {
+        console.log(err);
+        $state.go('login');
+      }
+
+      // If logged-in, check user type
+      else if (user) {
+
+        $scope.user = user;
+        if ($scope.user.type == 'restaurant') {
+            console.log($scope.user.type);
+          // Load the restaurant dashboard
+          $state.go('dashboard.general');
+        }
+      }
+    });
+  });
+
+  app.controller('MenuCtrl', function($scope, $http, $state, Provider, Menu) {
+
+    // Get the user menu
+    // The API returns posts that are not already part of the user menu
+    Menu.get(function(err, menu) {
+      if (err) {
+        console.log(err);
+      }
+      if (menu) {
+        $scope.user.data.menu = menu;
+      }
+    });
+  });
+
+  app.controller('MenuAddInstagramCtrl', function($scope, $http, $state, Provider, Menu) {
+    // Get the social feed for the user
+    // The API shall returns posts that are not already part of the user menu
+    Provider.feed(function(err, feed) {
+      $scope.feed = []; // clear feed
+      if (err) {
+        console.log(err);
+        return $state.go('login');
+      }
+      if (feed) {
+        $scope.feed = feed;
+      }
+    });
+
+    // Index of selected media for Add Menu Item Modal
+    $scope.addIndex = null;
+    $scope.addItemIndex = function(index) {
+      $scope.addIndex = index;
+    };
+
+    // Change the selected media Index
+    $scope.changeModalItem = function(direction) {
+      if (direction == 1) {
+        if ($scope.addIndex + 1 < $scope.feed.medias.length)
+          $scope.addIndex++;
+        else if ($scope.addIndex + 1 == $scope.feed.medias.length)
+          $scope.addIndex = 0;
+      }
+      if (direction == -1) {
+        if ($scope.addIndex - 1 >= 0)
+          $scope.addIndex--;
+        else if ($scope.addIndex - 1 < 0)
+          $scope.addIndex = $scope.feed.medias.length - 1;
+      }
+    };
+
+    // Create new Menu item and post to API
+    $scope.addMenuItemName = null;
+    $scope.addMenuItemPrice = null;
+    $scope.addMenuItemDesc = null;
+    $scope.createMenuItem = function() {
+      var media = $scope.feed.medias[$scope.addIndex];
+      var menuItem = {
+        name: $scope.addMenuItemName,
+        price: $scope.addMenuItemPrice,
+        pictures: [media.images.standard_resolution.url],
+        description: $scope.addMenuItemDesc,
+        visible: true,
+        timesOrdered: 0,
+        owner: $scope.user._id,
+        references: [media.link] // This property stores unique URLs for posts
+      };
+
+      $http.post('/api/menu', menuItem).success(function(response) {
+        if (response.error)
+          return console.log(error);
+
+        // Update user menu client-side
+        $scope.user.data.menu = response.menu;
+
+        // Update feed client-side
+        $http.get('/api/provider/feed').success(function(response) {
+          $scope.feed = response.feed;
+        });
+
+        // Clear Add Menu Item modal fields
+        $scope.addMenuItemName = '';
+        $scope.addMenuItemPrice = '';
+        $scope.addMenuItemDesc = '';
+      });
+    }; //.createMenuItem()
+
+    // Check add item form requirements
+    $scope.addItemMissingFields = true;
+    $scope.checkAddItemRequirements = function() {
+      if ($scope.addMenuItemName && $scope.addMenuItemPrice && $scope.addMenuItemDesc) {
+        $scope.addItemMissingFields = false;
+      } else {
+        $scope.addItemMissingFields = true;
+      }
+    }; //.checkAddItemRequirements()
+  });
+
+  app.controller('MenuAddInstagramExistingCtrl', function($scope, $http, $state, Provider, Menu) {
+    //If user has not loaded the Add Item screen, go there...
+    if (!$scope.$parent.feed)
+      return $state.go('dashboard.menu.add');
+
+    // Get the Feed item index
+    $scope.feedItem = $scope.feed.medias[$state.params.media];
+
+    // Get menu items
+    Menu.get(function(err, menu) {
+      if (err) return console.log(err);
+      $scope.menu = menu;
+    });
+
+    // addPicturetoItem
+    // 	takes the index of the item on the menu to add the picture
+    $scope.addPicturetoItem = function(menuItemIndex) {
+      // get the item object from the menu
+      var menuItem = $scope.menu[menuItemIndex];
+      // push the image url and the link url (from the Provider feed)
+      menuItem.pictures.push($scope.feedItem.images.standard_resolution.url);
+      menuItem.references.push($scope.feedItem.link);
+      // update menu item in db
+      Menu.updateItem(menuItem, function(err, item) {
+        if (err) console.log(err);
+        if (item) {
+          // If update successfull, go to item details view
+          $state.go('dashboard.menu.item', {
+            'id': item._id
+          });
+        }
+      });
+    };
+  });
+
+  app.controller('MenuAddLocalCrtl', function($scope, $state, Upload, Menu) {
+
+  });
+
+  app.controller('MenuItemCtrl', function($scope, $http, $state, $location, $timeout, Menu) {
+
+    // Read item ID in the URL and load from DB
+    Menu.getItem($state.params.id, function(error, item) {
+      if (error) console.log(error);
+      $scope.item = item;
+    });
+
+    $scope.location = $location.url();
+    console.log($scope.location);
+
+    // This var is used for loding spinner state
+    $scope.loading = null;
+
+    // Hide item and update in DB
+    $scope.hideItem = function(item) {
+      $scope.loading = true;
+      item.visible = false;
+      Menu.updateItem(item, function(error, item) {
+        if (error) return console.log(error);
+        $scope.item = item;
+        $scope.loading = false;
+      });
+    };
+
+    // Show item and update in DB
+    $scope.showItem = function(item) {
+      $scope.loading = true;
+      item.visible = true;
+      Menu.updateItem(item, function(error, item) {
+        if (error) return console.log(error);
+        $scope.item = item;
+        $scope.loading = false;
+      });
+    };
+
+    // Delete item and update in DB
+    $scope.deleteItem = function(item) {
+      $scope.loading = true;
+      Menu.deleteItem(item._id, function(error, menu) {
+        if (error) return console.log(error);
+        // Update user menu
+        $scope.$parent.user.data.menu = menu;
+        // Timeout needed because bootstrap modal is slow to dissapear
+        $timeout(function() {
+          $scope.loading = false;
+          $state.go('dashboard.menu');
+        }, 1000);
+      });
+    };
+  });
+
 };
 
 },{}],7:[function(require,module,exports){
-module.exports = function(app) {
-
-	app.controller('MainController', function($scope, $state, $location, User) {
-
-		// Check if User is logged-in
-		User.get(function(err, user) {
-			// If not logged-in, go to login page
-			if(err) {
-				console.log(err);
-				$state.go('login');
-			}
-
-			// If logged-in, check user type
-			else if (user) {
-
-				$scope.user = user;
-				if($scope.user.type == 'restaurant') {
-					// Load the restaurant dashboard
-					$state.go('dashboard.general');
-				}
-				if($scope.user.type == 'customer') {
-					// Loan the customers view
-					$state.go('app.general');
-				}
-
-				// AdminLTE event listeners registerer
-				require('./AdminLTE')();
-			}
-		});
-	});
-
-	app.controller('DashboardController', function($scope, $http, $state, User, Menu) {});
-
-	app.controller('MenuCtrl', function($scope, $http, $state, Provider, Menu) {
-
-		// Get the user menu
-		// The API returns posts that are not already part of the user menu
-		Menu.get(function(err, menu) {
-			if(err) {
-				console.log(err);
-			}
-			if(menu) {
-				$scope.user.data.menu = menu;
-			}
-		});
-	});
-
-	app.controller('MenuAddInstagramCtrl', function($scope, $http, $state, Provider, Menu) {
-		// Get the social feed for the user
-		// The API shall returns posts that are not already part of the user menu
-		Provider.feed(function(err, feed) {
-			$scope.feed = []; // clear feed
-			if(err) {
-				console.log(err);
-				return $state.go('login');
-			}
-			if(feed) {
-				$scope.feed = feed;
-			}
-		});
-
-		// Index of selected media for Add Menu Item Modal
-		$scope.addIndex = null;
-		$scope.addItemIndex = function(index) {
-			$scope.addIndex = index;
-		};
-
-		// Change the selected media Index
-		$scope.changeModalItem = function(direction) {
-			if(direction == 1) {
-				if($scope.addIndex + 1 < $scope.feed.medias.length)
-					$scope.addIndex++;
-				else if($scope.addIndex + 1 == $scope.feed.medias.length)
-					$scope.addIndex = 0;
-			}
-			if(direction == -1) {
-				if($scope.addIndex - 1 >= 0)
-					$scope.addIndex--;
-				else if($scope.addIndex - 1 < 0)
-					$scope.addIndex = $scope.feed.medias.length - 1;
-			}
-		};
-
-		// Create new Menu item and post to API
-		$scope.addMenuItemName = null;
-		$scope.addMenuItemPrice = null;
-		$scope.addMenuItemDesc = null;
-		$scope.createMenuItem = function() {
-			var media = $scope.feed.medias[$scope.addIndex];
-			var menuItem = {
-				name: $scope.addMenuItemName,
-				price: $scope.addMenuItemPrice,
-				pictures: [media.images.standard_resolution.url],
-				description: $scope.addMenuItemDesc,
-				visible: true,
-				timesOrdered: 0,
-				owner: $scope.user._id,
-				references: [media.link] // This property stores unique URLs for posts
-			};
-
-			$http.post('/api/menu', menuItem).success(function(response) {
-				if(response.error)
-					return console.log(error);
-
-				// Update user menu client-side
-				$scope.user.data.menu = response.menu;
-
-				// Update feed client-side
-				$http.get('/api/provider/feed').success(function(response) {
-					$scope.feed = response.feed;
-				});
-
-				// Clear Add Menu Item modal fields
-				$scope.addMenuItemName = '';
-				$scope.addMenuItemPrice = '';
-				$scope.addMenuItemDesc = '';
-			});
-		}; //.createMenuItem()
-
-		// Check add item form requirements
-		$scope.addItemMissingFields = true;
-		$scope.checkAddItemRequirements = function() {
-			if ($scope.addMenuItemName && $scope.addMenuItemPrice && $scope.addMenuItemDesc) {
-				$scope.addItemMissingFields = false;
-			}
-			else {
-				$scope.addItemMissingFields = true;
-			}
-		};//.checkAddItemRequirements()
-	});
-
-	app.controller('MenuAddInstagramExistingCtrl', function($scope, $http, $state, Provider, Menu) {
-		//If user has not loaded the Add Item screen, go there...
-		if (!$scope.$parent.feed)
-			return $state.go('dashboard.menu.add');
-
-		// Get the Feed item index
-		$scope.feedItem = $scope.feed.medias[$state.params.media];
-
-		// Get menu items
-		Menu.get(function(err, menu) {
-			if(err) return console.log(err);
-			$scope.menu = menu;
-		});
-
-		// addPicturetoItem
-		// 	takes the index of the item on the menu to add the picture
-		$scope.addPicturetoItem = function(menuItemIndex) {
-			// get the item object from the menu
-			var menuItem = $scope.menu[menuItemIndex];
-			// push the image url and the link url (from the Provider feed)
-			menuItem.pictures.push($scope.feedItem.images.standard_resolution.url);
-			menuItem.references.push($scope.feedItem.link);
-			// update menu item in db
-			Menu.updateItem(menuItem, function(err, item) {
-				if(err) console.log(err);
-				if(item) {
-					// If update successfull, go to item details view
-					$state.go('dashboard.menu.item', { 'id': item._id });
-				}
-			});
-		};
-	});
-
-	app.controller('MenuAddLocalCrtl', function($scope, $state, Upload, Menu) {
-	  // upload on file select or drop
-	  $scope.upload = function(file) {
-	    Upload.upload({
-	      url: 'upload/url',
-	      data: {
-	        file: file,
-	        'username': $scope.user.username
-	      }
-	    }).then(function(resp) {
-	      console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-	    }, function(resp) {
-	      console.log('Error status: ' + resp.status);
-	    }, function(evt) {
-	      var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-	      console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-	    });
-	  };
-	});
-
-	app.controller('MenuItemCtrl', function($scope, $http, $state, $location, $timeout, Menu) {
-
-		// Read item ID in the URL and load from DB
-		Menu.getItem($state.params.id, function(error, item) {
-			if(error) console.log(error);
-			$scope.item = item;
-		});
-
-		$scope.location = $location.url();
-		console.log($scope.location);
-
-		// This var is used for loding spinner state
-		$scope.loading = null;
-
-		// Hide item and update in DB
-		$scope.hideItem = function(item) {
-			$scope.loading = true;
-			item.visible = false;
-			Menu.updateItem(item, function(error, item) {
-				if(error) return console.log(error);
-				$scope.item = item;
-				$scope.loading = false;
-			});
-		};
-
-		// Show item and update in DB
-		$scope.showItem = function(item) {
-			$scope.loading = true;
-			item.visible = true;
-			Menu.updateItem(item, function(error, item) {
-				if(error) return console.log(error);
-				$scope.item = item;
-				$scope.loading = false;
-			});
-		};
-
-		// Delete item and update in DB
-		$scope.deleteItem = function(item) {
-			$scope.loading = true;
-			Menu.deleteItem(item._id, function(error, menu) {
-				if(error) return console.log(error);
-				// Update user menu
-				$scope.$parent.user.data.menu = menu;
-				// Timeout needed because bootstrap modal is slow to dissapear
-				$timeout(function() {
-					$scope.loading = false;
-					$state.go('dashboard.menu');
-				}, 1000);
-			});
-		};
-	});
-
-};
-
-},{"./AdminLTE":6}],8:[function(require,module,exports){
 module.exports = function(app) {
 	app.directive('fsHeader', function() {
 		return {
@@ -36553,7 +36503,7 @@ module.exports = function(app) {
 	});
 
 };
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var angular = require('angular');
 var uiRouter = require('angular-ui-router');
 var ngFileUpload = require('ng-file-upload');
@@ -36570,11 +36520,15 @@ require('./controllers')(app);
 // Setup Directives
 require('./directives')(app);
 
+// Setup Utils
+// AdminLTE event listeners registerer
+require('./utils/AdminLTE')();
+
 // Setup Routes
 app.config(function($stateProvider, $urlRouterProvider) {
  	//
   // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise("/dashboard/general");
+  $urlRouterProvider.otherwise("/frontpage");
   //
   // Now set up the states
   $stateProvider
@@ -36584,16 +36538,23 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "templates/login.html"
     })
 
+    // State for frontpage view
+    .state('frontpage', {
+      url: "/frontpage",
+      templateUrl: "templates/frontpage.html",
+      controller: "FrontpageController"
+    })
+
     // States for Restaurant users
     .state('dashboard', {
       url: "/dashboard",
-      templateUrl: "templates/dashboard.html"
+      templateUrl: "templates/dashboard.html",
+      controller: 'DashboardController'
     })
         // States for General
         .state('dashboard.general', {
           url: '/general',
-          templateUrl: "templates/dashboard.general.html",
-          controller: 'DashboardController'
+          templateUrl: "templates/dashboard.general.html"
         })
 
         // States for Menu
@@ -36634,7 +36595,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         });
 });
 
-},{"./controllers":7,"./directives":8,"./services":10,"angular":3,"angular-ui-router":1,"ng-file-upload":5}],10:[function(require,module,exports){
+},{"./controllers":6,"./directives":7,"./services":9,"./utils/AdminLTE":10,"angular":3,"angular-ui-router":1,"ng-file-upload":5}],9:[function(require,module,exports){
 module.exports = function(app) {
 
 	// User service for the User API endpoint
@@ -36701,4 +36662,41 @@ module.exports = function(app) {
 	}]);
 
 };
-},{}]},{},[9])
+},{}],10:[function(require,module,exports){
+/*! AdminLTE app.js
+ * ================
+ * Main JS application file for AdminLTE v2. This file
+ * should be included in all pages. It controls some layout
+ * options and implements exclusive AdminLTE plugins.
+ *
+ * @Author  Almsaeed Studio
+ * @Support <http://www.almsaeedstudio.com>
+ * @Email   <support@almsaeedstudio.com>
+ * @version 2.3.0
+ * @license MIT <http://opensource.org/licenses/MIT>
+ */
+
+ /* Execute this as require('AdminLTE')(); */
+module.exports = function() {
+	var done = false; // track one time execution
+	// set an interval and get intervalID (used for clearing the inverval)
+	var intervalID = window.setInterval(function() {
+		// if the script is not executed...
+		if (!done) {
+			// check if the element with class 'sidebar-toggle' is in the DOM
+			if(document.getElementsByClassName('sidebar-toggle')) {
+				console.log('AdminLTE: Registering event listeners...');
+				function _init(){"use strict";$.AdminLTE.layout={activate:function(){var a=this;a.fix(),a.fixSidebar(),$(window,".wrapper").resize(function(){a.fix(),a.fixSidebar()})},fix:function(){var a=$(".main-header").outerHeight()+$(".main-footer").outerHeight(),b=$(window).height(),c=$(".sidebar").height();if($("body").hasClass("fixed"))$(".content-wrapper, .right-side").css("min-height",b-$(".main-footer").outerHeight());else{var d;b>=c?($(".content-wrapper, .right-side").css("min-height",b-a),d=b-a):($(".content-wrapper, .right-side").css("min-height",c),d=c);var e=$($.AdminLTE.options.controlSidebarOptions.selector);"undefined"!=typeof e&&e.height()>d&&$(".content-wrapper, .right-side").css("min-height",e.height())}},fixSidebar:function(){return $("body").hasClass("fixed")?("undefined"==typeof $.fn.slimScroll&&window.console&&window.console.error("Error: the fixed layout requires the slimscroll plugin!"),void($.AdminLTE.options.sidebarSlimScroll&&"undefined"!=typeof $.fn.slimScroll&&($(".sidebar").slimScroll({destroy:!0}).height("auto"),$(".sidebar").slimscroll({height:$(window).height()-$(".main-header").height()+"px",color:"rgba(0,0,0,0.2)",size:"3px"})))):void("undefined"!=typeof $.fn.slimScroll&&$(".sidebar").slimScroll({destroy:!0}).height("auto"))}},$.AdminLTE.pushMenu={activate:function(a){var b=$.AdminLTE.options.screenSizes;$(a).on("click",function(a){a.preventDefault(),$(window).width()>b.sm-1?$("body").hasClass("sidebar-collapse")?$("body").removeClass("sidebar-collapse").trigger("expanded.pushMenu"):$("body").addClass("sidebar-collapse").trigger("collapsed.pushMenu"):$("body").hasClass("sidebar-open")?$("body").removeClass("sidebar-open").removeClass("sidebar-collapse").trigger("collapsed.pushMenu"):$("body").addClass("sidebar-open").trigger("expanded.pushMenu")}),$(".content-wrapper").click(function(){$(window).width()<=b.sm-1&&$("body").hasClass("sidebar-open")&&$("body").removeClass("sidebar-open")}),($.AdminLTE.options.sidebarExpandOnHover||$("body").hasClass("fixed")&&$("body").hasClass("sidebar-mini"))&&this.expandOnHover()},expandOnHover:function(){var a=this,b=$.AdminLTE.options.screenSizes.sm-1;$(".main-sidebar").hover(function(){$("body").hasClass("sidebar-mini")&&$("body").hasClass("sidebar-collapse")&&$(window).width()>b&&a.expand()},function(){$("body").hasClass("sidebar-mini")&&$("body").hasClass("sidebar-expanded-on-hover")&&$(window).width()>b&&a.collapse()})},expand:function(){$("body").removeClass("sidebar-collapse").addClass("sidebar-expanded-on-hover")},collapse:function(){$("body").hasClass("sidebar-expanded-on-hover")&&$("body").removeClass("sidebar-expanded-on-hover").addClass("sidebar-collapse")}},$.AdminLTE.tree=function(a){var b=this,c=$.AdminLTE.options.animationSpeed;$(document).on("click",a+" li a",function(a){var d=$(this),e=d.next();if(e.is(".treeview-menu")&&e.is(":visible"))e.slideUp(c,function(){e.removeClass("menu-open")}),e.parent("li").removeClass("active");else if(e.is(".treeview-menu")&&!e.is(":visible")){var f=d.parents("ul").first(),g=f.find("ul:visible").slideUp(c);g.removeClass("menu-open");var h=d.parent("li");e.slideDown(c,function(){e.addClass("menu-open"),f.find("li.active").removeClass("active"),h.addClass("active"),b.layout.fix()})}e.is(".treeview-menu")&&a.preventDefault()})},$.AdminLTE.controlSidebar={activate:function(){var a=this,b=$.AdminLTE.options.controlSidebarOptions,c=$(b.selector),d=$(b.toggleBtnSelector);d.on("click",function(d){d.preventDefault(),c.hasClass("control-sidebar-open")||$("body").hasClass("control-sidebar-open")?a.close(c,b.slide):a.open(c,b.slide)});var e=$(".control-sidebar-bg");a._fix(e),$("body").hasClass("fixed")?a._fixForFixed(c):$(".content-wrapper, .right-side").height()<c.height()&&a._fixForContent(c)},open:function(a,b){b?a.addClass("control-sidebar-open"):$("body").addClass("control-sidebar-open")},close:function(a,b){b?a.removeClass("control-sidebar-open"):$("body").removeClass("control-sidebar-open")},_fix:function(a){var b=this;$("body").hasClass("layout-boxed")?(a.css("position","absolute"),a.height($(".wrapper").height()),$(window).resize(function(){b._fix(a)})):a.css({position:"fixed",height:"auto"})},_fixForFixed:function(a){a.css({position:"fixed","max-height":"100%",overflow:"auto","padding-bottom":"50px"})},_fixForContent:function(a){$(".content-wrapper, .right-side").css("min-height",a.height())}},$.AdminLTE.boxWidget={selectors:$.AdminLTE.options.boxWidgetOptions.boxWidgetSelectors,icons:$.AdminLTE.options.boxWidgetOptions.boxWidgetIcons,animationSpeed:$.AdminLTE.options.animationSpeed,activate:function(a){var b=this;a||(a=document),$(a).on("click",b.selectors.collapse,function(a){a.preventDefault(),b.collapse($(this))}),$(a).on("click",b.selectors.remove,function(a){a.preventDefault(),b.remove($(this))})},collapse:function(a){var b=this,c=a.parents(".box").first(),d=c.find("> .box-body, > .box-footer, > form  >.box-body, > form > .box-footer");c.hasClass("collapsed-box")?(a.children(":first").removeClass(b.icons.open).addClass(b.icons.collapse),d.slideDown(b.animationSpeed,function(){c.removeClass("collapsed-box")})):(a.children(":first").removeClass(b.icons.collapse).addClass(b.icons.open),d.slideUp(b.animationSpeed,function(){c.addClass("collapsed-box")}))},remove:function(a){var b=a.parents(".box").first();b.slideUp(this.animationSpeed)}}}if("undefined"==typeof jQuery)throw new Error("AdminLTE requires jQuery");$.AdminLTE={},$.AdminLTE.options={navbarMenuSlimscroll:!0,navbarMenuSlimscrollWidth:"3px",navbarMenuHeight:"200px",animationSpeed:500,sidebarToggleSelector:"[data-toggle='offcanvas']",sidebarPushMenu:!0,sidebarSlimScroll:!0,sidebarExpandOnHover:!1,enableBoxRefresh:!0,enableBSToppltip:!0,BSTooltipSelector:"[data-toggle='tooltip']",enableFastclick:!0,enableControlSidebar:!0,controlSidebarOptions:{toggleBtnSelector:"[data-toggle='control-sidebar']",selector:".control-sidebar",slide:!0},enableBoxWidget:!0,boxWidgetOptions:{boxWidgetIcons:{collapse:"fa-minus",open:"fa-plus",remove:"fa-times"},boxWidgetSelectors:{remove:'[data-widget="remove"]',collapse:'[data-widget="collapse"]'}},directChat:{enable:!0,contactToggleSelector:'[data-widget="chat-pane-toggle"]'},colors:{lightBlue:"#3c8dbc",red:"#f56954",green:"#00a65a",aqua:"#00c0ef",yellow:"#f39c12",blue:"#0073b7",navy:"#001F3F",teal:"#39CCCC",olive:"#3D9970",lime:"#01FF70",orange:"#FF851B",fuchsia:"#F012BE",purple:"#8E24AA",maroon:"#D81B60",black:"#222222",gray:"#d2d6de"},screenSizes:{xs:480,sm:768,md:992,lg:1200}},$(function(){"use strict";$("body").removeClass("hold-transition"),"undefined"!=typeof AdminLTEOptions&&$.extend(!0,$.AdminLTE.options,AdminLTEOptions);var a=$.AdminLTE.options;_init(),$.AdminLTE.layout.activate(),$.AdminLTE.tree(".sidebar"),a.enableControlSidebar&&$.AdminLTE.controlSidebar.activate(),a.navbarMenuSlimscroll&&"undefined"!=typeof $.fn.slimscroll&&$(".navbar .menu").slimscroll({height:a.navbarMenuHeight,alwaysVisible:!1,size:a.navbarMenuSlimscrollWidth}).css("width","100%"),a.sidebarPushMenu&&$.AdminLTE.pushMenu.activate(a.sidebarToggleSelector),a.enableBSToppltip&&$("body").tooltip({selector:a.BSTooltipSelector}),a.enableBoxWidget&&$.AdminLTE.boxWidget.activate(),a.enableFastclick&&"undefined"!=typeof FastClick&&FastClick.attach(document.body),a.directChat.enable&&$(document).on("click",a.directChat.contactToggleSelector,function(){var a=$(this).parents(".direct-chat").first();a.toggleClass("direct-chat-contacts-open")}),$('.btn-group[data-toggle="btn-toggle"]').each(function(){var a=$(this);$(this).find(".btn").on("click",function(b){a.find(".btn.active").removeClass("active"),$(this).addClass("active"),b.preventDefault()})})}),function(a){"use strict";a.fn.boxRefresh=function(b){function c(a){a.append(f),e.onLoadStart.call(a)}function d(a){a.find(f).remove(),e.onLoadDone.call(a)}var e=a.extend({trigger:".refresh-btn",source:"",onLoadStart:function(a){return a},onLoadDone:function(a){return a}},b),f=a('<div class="overlay"><div class="fa fa-refresh fa-spin"></div></div>');return this.each(function(){if(""===e.source)return void(window.console&&window.console.log("Please specify a source first - boxRefresh()"));var b=a(this),f=b.find(e.trigger).first();f.on("click",function(a){a.preventDefault(),c(b),b.find(".box-body").load(e.source,function(){d(b)})})})}}(jQuery),function(a){"use strict";a.fn.activateBox=function(){a.AdminLTE.boxWidget.activate(this)}}(jQuery),function(a){"use strict";a.fn.todolist=function(b){var c=a.extend({onCheck:function(a){return a},onUncheck:function(a){return a}},b);return this.each(function(){"undefined"!=typeof a.fn.iCheck?(a("input",this).on("ifChecked",function(){var b=a(this).parents("li").first();b.toggleClass("done"),c.onCheck.call(b)}),a("input",this).on("ifUnchecked",function(){var b=a(this).parents("li").first();b.toggleClass("done"),c.onUncheck.call(b)})):a("input",this).on("change",function(){var b=a(this).parents("li").first();b.toggleClass("done"),a("input",b).is(":checked")?c.onCheck.call(b):c.onUncheck.call(b)})})}}(jQuery);
+				done = true; // script executed once
+				console.log('AdminLTE: Done!');
+			}
+		}
+		// else, if the script was executed one-time, clear the interval
+		else {
+			window.clearInterval(intervalID);
+			console.log("Cleared AdminLTE registering interval.");
+		}
+	}, 300)
+};
+
+},{}]},{},[8])

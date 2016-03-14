@@ -14,11 +14,15 @@ require('./controllers')(app);
 // Setup Directives
 require('./directives')(app);
 
+// Setup Utils
+// AdminLTE event listeners registerer
+require('./utils/AdminLTE')();
+
 // Setup Routes
 app.config(function($stateProvider, $urlRouterProvider) {
  	//
   // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise("/dashboard/general");
+  $urlRouterProvider.otherwise("/frontpage");
   //
   // Now set up the states
   $stateProvider
@@ -28,16 +32,23 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "templates/login.html"
     })
 
+    // State for frontpage view
+    .state('frontpage', {
+      url: "/frontpage",
+      templateUrl: "templates/frontpage.html",
+      controller: "FrontpageController"
+    })
+
     // States for Restaurant users
     .state('dashboard', {
       url: "/dashboard",
-      templateUrl: "templates/dashboard.html"
+      templateUrl: "templates/dashboard.html",
+      controller: 'DashboardController'
     })
         // States for General
         .state('dashboard.general', {
           url: '/general',
-          templateUrl: "templates/dashboard.general.html",
-          controller: 'DashboardController'
+          templateUrl: "templates/dashboard.general.html"
         })
 
         // States for Menu

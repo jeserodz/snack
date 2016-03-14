@@ -2,7 +2,7 @@
 /*!
  *   AdminLTE v2.3.0
  *   Author: Almsaeed Studio
- *	 Website: Almsaeed Studio <http://almsaeedstudio.com>
+ *   Website: Almsaeed Studio <http://almsaeedstudio.com>
  *   License: Open source - MIT
  *           Please visit http://opensource.org/licenses/MIT for more information
 !*/
@@ -96,14 +96,14 @@ body {
 .content-wrapper,
 .right-side {
   min-height: 100%;
-  background-color: #F4F4F4;
+  background-color: #ecf0f5;
   z-index: 800;
 }
 .main-footer {
-  background: #fff;
+  background: #1A2226;
   padding: 15px;
-  color: #444;
-  border-top: 1px solid #d2d6de;
+  color: #8A8A8A;
+  border-top: 1px solid #222D32;
 }
 /* Fixed layout */
 .fixed .main-header,
@@ -316,12 +316,16 @@ a:focus {
 .content-header > h1 {
   margin: 0;
   font-size: 24px;
+  color: #fff;
+  text-shadow: 1px 1px 3px #000;
 }
 .content-header > h1 > small {
   font-size: 15px;
   display: inline-block;
   padding-left: 4px;
   font-weight: 300;
+  color: #fff;
+  font-weight: 400;
 }
 .content-header > .breadcrumb {
   float: right;
@@ -906,8 +910,7 @@ a:focus {
  */
 /*Dropdowns in general*/
 .dropdown-menu {
-  box-shadow: none;
-  border-color: #eee;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.23);
 }
 .dropdown-menu > li > a {
   color: #777;
@@ -1066,16 +1069,15 @@ a:focus {
   border-top-right-radius: 0;
   border-top-left-radius: 0;
   padding: 1px 0 0 0;
-  border-top-width: 0;
+  border-top-width: 0px;
   width: 280px;
 }
 .navbar-nav > .user-menu > .dropdown-menu,
 .navbar-nav > .user-menu > .dropdown-menu > .user-body {
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+  /* border-bottom-right-radius: 4px; */
+  /* border-bottom-left-radius: 4px; */
 }
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header {
-  height: 175px;
   padding: 10px;
   text-align: center;
 }
@@ -1102,6 +1104,7 @@ a:focus {
   padding: 15px;
   border-bottom: 1px solid #f4f4f4;
   border-top: 1px solid #dddddd;
+  background: #fff;
 }
 .navbar-nav > .user-menu > .dropdown-menu > .user-body:before,
 .navbar-nav > .user-menu > .dropdown-menu > .user-body:after {
@@ -1519,7 +1522,7 @@ a:focus {
 .box {
   position: relative;
   border-radius: 3px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.9);
   border-top: 3px solid #d2d6de;
   margin-bottom: 20px;
   width: 100%;
@@ -1714,7 +1717,7 @@ a:focus {
   position: relative;
 }
 .box-header.with-border {
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid rgba(26, 34, 38, 0.19);
 }
 .collapsed-box .box-header.with-border {
   border-bottom: none;
@@ -1999,7 +2002,7 @@ a:focus {
   min-height: 90px;
   background: #fff;
   width: 100%;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   border-radius: 2px;
   margin-bottom: 15px;
 }
@@ -2036,7 +2039,7 @@ a:focus {
   max-width: 100%;
 }
 .info-box-content {
-  padding: 5px 10px;
+  padding: 2px 10px;
   margin-left: 90px;
 }
 .info-box-number {
@@ -3183,7 +3186,13 @@ table.text-center th {
 }
 .login-page,
 .register-page {
-  background: #d2d6de;
+  background: -moz-linear-gradient(34deg, rgba(158,27,27,1) 0%, rgba(204,50,47,1) 100%); /* ff3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(158,27,27,1)), color-stop(100%, rgba(204,50,47,1))); /* safari4+,chrome */
+  background: -webkit-linear-gradient(34deg, rgba(158,27,27,1) 0%, rgba(204,50,47,1) 100%); /* safari5.1+,chrome10+ */
+  background: -o-linear-gradient(34deg, rgba(158,27,27,1) 0%, rgba(204,50,47,1) 100%); /* opera 11.10+ */
+  background: -ms-linear-gradient(34deg, rgba(158,27,27,1) 0%, rgba(204,50,47,1) 100%); /* ie10+ */
+  background: linear-gradient(56deg, rgba(158,27,27,1) 0%, rgba(204,50,47,1) 100%); /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9E1B1B', endColorstr='#CC322F',GradientType=1 ); /* ie6-9 */
 }
 .login-box,
 .register-box {
@@ -4726,4 +4735,10 @@ table.text-center th {
   .table-responsive > .table tr td {
     white-space: normal!important;
   }
+}
+
+.v-align {
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
 }
