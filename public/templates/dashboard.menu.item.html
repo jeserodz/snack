@@ -9,7 +9,7 @@
   <div class="box box-warning" style="min-height: 100%">
     <div class="box-header with-border">
       <h3 class="box-title">
-        <a href="#/dashboard/menu"><i class="ion ion-arrow-left-a" style="font-size:large; margin-right:10pt"></i></a> 
+        <a href="#/dashboard/menu"><i class="ion ion-arrow-left-a" style="font-size:large; margin-right:10pt"></i></a>
         {{item.name}}
       </h3>
       <div class="box-tools pull-right">
@@ -45,6 +45,10 @@
 
               <strong><i class="ion ion-quote"></i> Descripción</strong>
               <p class="text-muted">{{item.description}}</p>
+              <hr>
+
+              <strong><i class="ion ion-eye"></i> Visitas</strong>
+              <p class="text-muted">Este plato se ha visualizado {{item.timesViewed}} veces</p>
               <hr>
 
               <strong><i class="ion ion-stats-bars"></i> Órdenes</strong>

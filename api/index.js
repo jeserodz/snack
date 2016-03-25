@@ -5,7 +5,7 @@ var express = require('express');
 var HTTPStatus = require('http-status');
 var instagram = require('instagram-node').instagram();
 
-var apiContainer = function(wagner) {
+module.exports = function(wagner) {
 
 	var api = express.Router();
 
@@ -19,6 +19,4 @@ var apiContainer = function(wagner) {
 	api.use('/menu', require('./menu')(wagner));
 
 	return api;
-}
-
-module.exports = apiContainer;
+};

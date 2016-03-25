@@ -36263,9 +36263,15 @@ module.exports = function(app) {
 
   });
 
-  app.controller('FrontpageController', function($scope, $state, $location) {
+  app.controller('FrontpageController', function($scope, $state, $location, Menu) {
     console.log("Hi there");
     $('body').addClass('layout-top-nav');
+
+    // Get the global Menu
+    Menu.getAll(function(error, menu) {
+      if(error) { console.log(error); }
+      if(menu) { $scope.globalMenu = menu; }
+    });
   });
 
   app.controller('DashboardController', function($scope, $http, $state, User, Menu) {
@@ -36307,6 +36313,7 @@ module.exports = function(app) {
   });
 
   app.controller('MenuAddInstagramCtrl', function($scope, $http, $state, Provider, Menu) {
+
     // Get the social feed for the user
     // The API shall returns posts that are not already part of the user menu
     Provider.feed(function(err, feed) {
@@ -36320,13 +36327,13 @@ module.exports = function(app) {
       }
     });
 
-    // Index of selected media for Add Menu Item Modal
+    // Index of selected media, used by AddMenuItem modal
     $scope.addIndex = null;
     $scope.addItemIndex = function(index) {
       $scope.addIndex = index;
     };
 
-    // Change the selected media Index
+    // Change the index value of the selected media used by AddMenuItem modal
     $scope.changeModalItem = function(direction) {
       if (direction == 1) {
         if ($scope.addIndex + 1 < $scope.feed.medias.length)
@@ -36354,6 +36361,7 @@ module.exports = function(app) {
         pictures: [media.images.standard_resolution.url],
         description: $scope.addMenuItemDesc,
         visible: true,
+        timesViewed: 0,
         timesOrdered: 0,
         owner: $scope.user._id,
         references: [media.link] // This property stores unique URLs for posts
@@ -36391,8 +36399,9 @@ module.exports = function(app) {
 
   app.controller('MenuAddInstagramExistingCtrl', function($scope, $http, $state, Provider, Menu) {
     //If user has not loaded the Add Item screen, go there...
-    if (!$scope.$parent.feed)
+    if (!$scope.$parent.feed) {
       return $state.go('dashboard.menu.add');
+    }
 
     // Get the Feed item index
     $scope.feedItem = $scope.feed.medias[$state.params.media];
@@ -36525,15 +36534,19 @@ require('./directives')(app);
 require('./utils/AdminLTE')();
 
 // Setup Routes
-app.config(function($stateProvider, $urlRouterProvider) {
- 	//
-  // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise("/frontpage");
-  //
-  // Now set up the states
-  $stateProvider
+require('./routes')(app);
+
+},{"./controllers":6,"./directives":7,"./routes":9,"./services":10,"./utils/AdminLTE":11,"angular":3,"angular-ui-router":1,"ng-file-upload":5}],9:[function(require,module,exports){
+module.exports = function(app) {
+  app.config(function($stateProvider, $urlRouterProvider) {
+    //
+    // For any unmatched url, redirect to /state1
+    $urlRouterProvider.otherwise("/frontpage");
+    //
+    // Now set up the states
+    $stateProvider
     // State for login view
-    .state('login', {
+      .state('login', {
       url: "/login",
       templateUrl: "templates/login.html"
     })
@@ -36547,55 +36560,56 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
     // States for Restaurant users
     .state('dashboard', {
-      url: "/dashboard",
-      templateUrl: "templates/dashboard.html",
-      controller: 'DashboardController'
+        url: "/dashboard",
+        templateUrl: "templates/dashboard.html",
+        controller: 'DashboardController'
+      })
+      // States for General
+      .state('dashboard.general', {
+        url: '/general',
+        templateUrl: "templates/dashboard.general.html"
+      })
+
+    // States for Menu
+    .state('dashboard.menu', {
+        url: '/menu',
+        templateUrl: "templates/dashboard.menu.html",
+        controller: 'MenuCtrl'
+      })
+      // States for adding plates with Instagram
+      .state('dashboard.menu.addInstagram', {
+        url: '/addinstagram',
+        templateUrl: "templates/dashboard.menu.addinstagram.html",
+        controller: 'MenuAddInstagramCtrl'
+      })
+      .state('dashboard.menu.addInstagram.existing', {
+        url: '/existing?media',
+        templateUrl: "templates/dashboard.menu.addinstagram.existing.html",
+        controller: 'MenuAddInstagramExistingCtrl'
+      })
+
+    // TODO: States for adding plates locally
+    .state('dashboard.menu.addLocal', {
+      url: '/addlocal',
+      templateUrl: 'templates/dashboard.menu.addlocal.html',
+      controller: 'MenuAddLocalCrtl'
     })
-        // States for General
-        .state('dashboard.general', {
-          url: '/general',
-          templateUrl: "templates/dashboard.general.html"
-        })
 
-        // States for Menu
-        .state('dashboard.menu', {
-          url: '/menu',
-          templateUrl: "templates/dashboard.menu.html",
-          controller: 'MenuCtrl'
-        })
-            // States for adding plates with Instagram
-            .state('dashboard.menu.addInstagram', {
-              url: '/addinstagram',
-              templateUrl: "templates/dashboard.menu.addinstagram.html",
-              controller: 'MenuAddInstagramCtrl'
-            })
-              .state('dashboard.menu.addInstagram.existing', {
-                url: '/existing?media',
-                templateUrl: "templates/dashboard.menu.addinstagram.existing.html",
-                controller: 'MenuAddInstagramExistingCtrl'
-              })
+    .state('dashboard.menu.item', {
+      url: '/item/:id',
+      templateUrl: "templates/dashboard.menu.item.html",
+      controller: 'MenuItemCtrl'
+    })
 
-            // TODO: States for adding plates locally
-            .state('dashboard.menu.addLocal', {
-              url: '/addlocal',
-              templateUrl: 'templates/dashboard.menu.addlocal.html',
-              controller: 'MenuAddLocalCrtl'
-            })
+    // States for Orders
+    .state('dashboard.orders', {
+      url: '/orders',
+      templateUrl: "templates/dashboard.orders.html"
+    });
+  });
+};
 
-            .state('dashboard.menu.item', {
-              url: '/item/:id',
-              templateUrl: "templates/dashboard.menu.item.html",
-              controller: 'MenuItemCtrl'
-            })
-
-        // States for Orders
-        .state('dashboard.orders', {
-          url: '/orders',
-          templateUrl: "templates/dashboard.orders.html"
-        });
-});
-
-},{"./controllers":6,"./directives":7,"./services":9,"./utils/AdminLTE":10,"angular":3,"angular-ui-router":1,"ng-file-upload":5}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = function(app) {
 
 	// User service for the User API endpoint
@@ -36604,8 +36618,8 @@ module.exports = function(app) {
 		return {
 			get: function(callback) {
 				$http.get('/api/user/me').success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.user) { return callback(null, response.user) };
+					if(response.error) { return callback(response.error, null); }
+					if(response.user) { return callback(null, response.user); }
 				}); // end of API request
 			} // end of get() method
 		};
@@ -36617,8 +36631,8 @@ module.exports = function(app) {
 		return {
 			feed: function(callback) {
 				$http.get('/api/provider/feed').success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.feed) { return callback(null, response.feed) };
+					if(response.error) { return callback(response.error, null); }
+					if(response.feed) { return callback(null, response.feed); }
 				}); // end of API request
 			} // end of feed() method
 		};
@@ -36630,39 +36644,46 @@ module.exports = function(app) {
 		return {
 			get: function(callback) {
 				$http.get('/api/menu').success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.menu) { return callback(null, response.menu) };
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
 				}); // end of API request
 			}, // end of get() method
 			post: function(menuItem, callback) {
 				$http.post('/api/menu', menuItem).success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.menu) { return callback(null, response.menu) };
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
 				});
 			},
 			getItem: function(menuItemID, callback) {
 				$http.get('/api/menu/item/' + menuItemID).success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.item) { return callback(null, response.item) }
+					if(response.error) { return callback(response.error, null); }
+					if(response.item) { return callback(null, response.item); }
 				});
 			},
 			updateItem: function(menuItem, callback) {
 				$http.put('/api/menu/item/' + menuItem._id, menuItem).success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.item) { return callback(null, response.item) }
+					if(response.error) { return callback(response.error, null); }
+					if(response.item) { return callback(null, response.item); }
 				});
 			},
 			deleteItem: function(menuItemID, callback) {
 				$http.delete('/api/menu/item/' + menuItemID).success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.menu) { return callback(null, response.menu) }
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
+				});
+			},
+			getAll: function(callback) {
+				$http.get('/api/menu/all').success(function(response) {
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
 				});
 			}
 		};
 	}]);
 
 };
-},{}],10:[function(require,module,exports){
+
+},{}],11:[function(require,module,exports){
 /*! AdminLTE app.js
  * ================
  * Main JS application file for AdminLTE v2. This file

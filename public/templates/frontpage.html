@@ -201,15 +201,41 @@
 
       <!-- Main content -->
       <section class="content">
-          <div class="box box-danger">
+        <div class="box box-danger">
           <div class="box-body">
-              <div class="input-group input-group-sm">
-                <input type="text" class="form-control" placeholder="Busca lo que quieres comer... Una hamburguesa? Pizza? La mejor ensalada ceasar?">
-                <span class="input-group-btn">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" placeholder="Busca lo que quieres comer... Una hamburguesa? Pizza? La mejor ensalada ceasar?">
+              <span class="input-group-btn">
                     <button type="button" class="btn btn-info">Buscar</button>
                 </span>
-              </div>
+            </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="item in globalMenu">
+            <div class="info-box">
+              <span class="info-box-icon bg-red">
+                <a href="{{'#/dashboard/menu/item/' + item._id}}">
+                  <img style="height:100%; vertical-align:bottom" src="{{item.pictures[0]}}" />
+                </a>
+              </span>
+              <div class="info-box-content">
+                <span class="info-box-text">
+                  <a href="{{'#/dashboard/menu/item/' + item._id}}" ><b>{{item.name}}</b> </a>
+                  <a href="{{'#/dashboard/menu/item/' + item._id}}" class="pull-right"><i class="ion ion-more"></i></a>
+                </span>
+                <span class="info-box-number">${{item.price}}</span>
+                <span class="info-box-rating">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-half-o"></i>
+                  <i class="fa fa-star-o"></i>
+                </span>
+                <span class="info-box-text" style="text-transform: none">Se ha ordenado {{item.timesOrdered}} veces</span>
+              </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
+          </div><!-- /.col -->
         </div>
         <!-- /.box -->
         <!-- div class="callout callout-info">

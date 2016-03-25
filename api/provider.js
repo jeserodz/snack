@@ -16,7 +16,7 @@ var providerApi = function(wagner) {
 					.json({ error: "User is not logged in", loginUrl: "http://localhost:3000/auth/instagram" });
 			}
 
-			// Check user oauth provider: Instagram 
+			// Check user oauth provider: Instagram
 			if (req.user.oauth.provider == 'instagram') {
 
 				instagram.use({ access_token: req.user.oauth.accessToken });
@@ -33,12 +33,12 @@ var providerApi = function(wagner) {
 							status(HTTPStatus.INTERNAL_SERVER_ERROR).
 							json({ error: error, description: 'Error while getting user menu'});
 						}
-						
+
 						menu.forEach(function(item, index, array) { // Each item in the user menu
 							item.references.forEach(function(reference, index, array) { // Each reference in the item
 								medias.forEach(function(media, index, array) { // Each of the media in instagram
 									if(reference == media.link) { // Compare menu item reference with media link
-										// If the reference already exists on the menu, 
+										// If the reference already exists on the menu,
 										//  remove the media from the collection
 										medias.splice(index, 1);
 									}
@@ -49,7 +49,7 @@ var providerApi = function(wagner) {
 						// Convert UTC date to readable date
 						medias.forEach(function(media, index, array) {
 							media.created_time = new Date(parseInt(media.created_time) * 1000);
-							media.created_time = media.created_time.getDate()+"/"+(media.created_time.getMonth()+1)+"/"+media.created_time.getFullYear()
+							media.created_time = media.created_time.getDate()+"/"+(media.created_time.getMonth()+1)+"/"+media.created_time.getFullYear();
 						});
 
 						// Return the API response
@@ -68,6 +68,6 @@ var providerApi = function(wagner) {
 	}));
 
 	return provider;
-}
+};
 
 module.exports = providerApi;

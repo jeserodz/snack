@@ -6,8 +6,8 @@ module.exports = function(app) {
 		return {
 			get: function(callback) {
 				$http.get('/api/user/me').success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.user) { return callback(null, response.user) };
+					if(response.error) { return callback(response.error, null); }
+					if(response.user) { return callback(null, response.user); }
 				}); // end of API request
 			} // end of get() method
 		};
@@ -19,8 +19,8 @@ module.exports = function(app) {
 		return {
 			feed: function(callback) {
 				$http.get('/api/provider/feed').success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.feed) { return callback(null, response.feed) };
+					if(response.error) { return callback(response.error, null); }
+					if(response.feed) { return callback(null, response.feed); }
 				}); // end of API request
 			} // end of feed() method
 		};
@@ -32,32 +32,38 @@ module.exports = function(app) {
 		return {
 			get: function(callback) {
 				$http.get('/api/menu').success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.menu) { return callback(null, response.menu) };
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
 				}); // end of API request
 			}, // end of get() method
 			post: function(menuItem, callback) {
 				$http.post('/api/menu', menuItem).success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.menu) { return callback(null, response.menu) };
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
 				});
 			},
 			getItem: function(menuItemID, callback) {
 				$http.get('/api/menu/item/' + menuItemID).success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.item) { return callback(null, response.item) }
+					if(response.error) { return callback(response.error, null); }
+					if(response.item) { return callback(null, response.item); }
 				});
 			},
 			updateItem: function(menuItem, callback) {
 				$http.put('/api/menu/item/' + menuItem._id, menuItem).success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.item) { return callback(null, response.item) }
+					if(response.error) { return callback(response.error, null); }
+					if(response.item) { return callback(null, response.item); }
 				});
 			},
 			deleteItem: function(menuItemID, callback) {
 				$http.delete('/api/menu/item/' + menuItemID).success(function(response) {
-					if(response.error) { return callback(response.error, null) }
-					if(response.menu) { return callback(null, response.menu) }
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
+				});
+			},
+			getAll: function(callback) {
+				$http.get('/api/menu/all').success(function(response) {
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
 				});
 			}
 		};

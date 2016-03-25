@@ -28,9 +28,9 @@ var menuAPI = function(wagner) {
 	}));
 
 	// Get the menu list for the logged-in user
-	menu.get('/', wagner.invoke(function(User, Menu) {		
+	menu.get('/', wagner.invoke(function(User, Menu) {
 
-		return function(req, res) {	
+		return function(req, res) {
 			if (!req.user) {
 				return res.status(HTTPStatus.UNAUTHORIZED)
 					.json({ error: "User is not logged in", loginUrl: "http://localhost:3000/auth/instagram" });
@@ -43,8 +43,8 @@ var menuAPI = function(wagner) {
 
 		};
 	}));
-	
-	// Get a specific menu item by ID
+
+	// Get an specific menu item by ID
 	menu.get('/item/:id', wagner.invoke(function(Menu) {
 		return function(req, res) {
 			Menu.findOne({ _id: req.params.id }, function(err, item) {
@@ -91,6 +91,18 @@ var menuAPI = function(wagner) {
 	      	return res.json({ menu: menu });
 	      });
 	    });
+		};
+	}));
+
+	// PUBLIC: Get all menu items
+	menu.get('/all', wagner.invoke(function(Menu) {
+		return function(req, res) {
+			Menu.find({}, function(err, globalMenu) {
+				if(err) return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error: err });
+				else {
+					return res.json({ menu: globalMenu });
+				}
+			});
 		};
 	}));
 

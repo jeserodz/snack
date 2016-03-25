@@ -4,9 +4,15 @@ module.exports = function(app) {
 
   });
 
-  app.controller('FrontpageController', function($scope, $state, $location) {
+  app.controller('FrontpageController', function($scope, $state, $location, Menu) {
     console.log("Hi there");
     $('body').addClass('layout-top-nav');
+
+    // Get the global Menu
+    Menu.getAll(function(error, menu) {
+      if(error) { console.log(error); }
+      if(menu) { $scope.globalMenu = menu; }
+    });
   });
 
   app.controller('DashboardController', function($scope, $http, $state, User, Menu) {
@@ -48,6 +54,7 @@ module.exports = function(app) {
   });
 
   app.controller('MenuAddInstagramCtrl', function($scope, $http, $state, Provider, Menu) {
+
     // Get the social feed for the user
     // The API shall returns posts that are not already part of the user menu
     Provider.feed(function(err, feed) {
@@ -61,13 +68,13 @@ module.exports = function(app) {
       }
     });
 
-    // Index of selected media for Add Menu Item Modal
+    // Index of selected media, used by AddMenuItem modal
     $scope.addIndex = null;
     $scope.addItemIndex = function(index) {
       $scope.addIndex = index;
     };
 
-    // Change the selected media Index
+    // Change the index value of the selected media used by AddMenuItem modal
     $scope.changeModalItem = function(direction) {
       if (direction == 1) {
         if ($scope.addIndex + 1 < $scope.feed.medias.length)
@@ -95,6 +102,7 @@ module.exports = function(app) {
         pictures: [media.images.standard_resolution.url],
         description: $scope.addMenuItemDesc,
         visible: true,
+        timesViewed: 0,
         timesOrdered: 0,
         owner: $scope.user._id,
         references: [media.link] // This property stores unique URLs for posts
@@ -132,8 +140,9 @@ module.exports = function(app) {
 
   app.controller('MenuAddInstagramExistingCtrl', function($scope, $http, $state, Provider, Menu) {
     //If user has not loaded the Add Item screen, go there...
-    if (!$scope.$parent.feed)
+    if (!$scope.$parent.feed) {
       return $state.go('dashboard.menu.add');
+    }
 
     // Get the Feed item index
     $scope.feedItem = $scope.feed.medias[$state.params.media];
