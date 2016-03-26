@@ -18,6 +18,12 @@ module.exports = function(app) {
       templateUrl: "templates/frontpage.html",
       controller: "FrontpageController"
     })
+      // State for frontpage ITEM view
+      .state('frontpage.item', {
+        url: "/item/:id",
+        templateUrl: "templates/frontpage.item.html",
+        controller: "FrontpageItemController"
+      })
 
     // States for Restaurant users
     .state('dashboard', {

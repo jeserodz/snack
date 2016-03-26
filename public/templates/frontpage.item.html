@@ -1,0 +1,115 @@
+<div class="container">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>Detalles del plato</h1>
+    <!--ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#">Layout</a></li>
+    <li class="active">Top Navigation</li>
+  </ol-->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-sm-4">
+        <img class="thumbnail" style="width:100%" src="{{item.pictures[0]}}">
+        <div class="box">
+          <div class="box-body">
+            <h4><strong>Ordenar</strong></h4>
+            <!-- Ordering form -->
+            <form role="form">
+              <!-- Table -->
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td><strong><i class="ion ion-cash"></i> Precio</strong></td>
+                    <td>${{item.price}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong><strong><i class="fa fa-motorcycle"></i> Delivery Disponible</strong></td>
+                    <td>Si</td>
+                  </tr>
+                  <tr>
+                    <td><strong><i class="ion ion-clock"></i> Tiempo Est. Delivery</strong></td>
+                    <td>45 Min</td>
+                  </tr>
+                  <tr>
+                    <td><strong><i class="fa fa-list-ol"></i> Cantidad</strong></td>
+                    <td>
+                      <div class="form-group" style="margin:0">
+                        <select class="form-control input-sm">
+                          <option>{{"maxOrderQty"}}
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong><i class="fa fa-credit-card"></i> Forma de Pago</strong></td>
+                    <td>
+                      <div class="form-group style="margin:0"">
+                        <select class="form-control input-sm">
+                          <option>Efectivo en la entrega</option>
+                          <option>Pago en línea</option>
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="form-group col-md-8 col-md-offset-2">
+                <button type="submit" class="btn btn-block btn-success btn-sm"><i class="fa fa-shopping-cart"></i> Ordenar</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <div class="col-sm-8">
+        <!-- Item Details Box -->
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title"><strong>{{item.name}}</strong></h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+
+            <strong><i class="ion ion-quote"></i> Descripción</strong>
+            <p class="text-muted">{{item.description}}</p>
+            <hr>
+
+            <strong><i class="ion ion-eye"></i> Visitas</strong>
+            <p class="text-muted">Este plato se ha visualizado {{item.timesViewed}} veces</p>
+            <hr>
+
+            <strong><i class="ion ion-stats-bars"></i> Órdenes</strong>
+            <p class="text-muted">Este plato se ha ordenado {{item.timesOrdered}} veces</p>
+            <hr>
+
+            <strong><i class="ion ion-images"></i> Fotos</strong>
+            <p class="text-muted">
+              <div class="row">
+                <div class="col-xs-4 col-sm-3" ng-repeat="picture in item.pictures">
+                  <img src="{{picture}}" style="width:100%" class="thumbnail">
+                </div>
+              </div>
+            </p>
+            <hr>
+
+            <strong><i class="ion ion-pound"></i> ID</strong>
+            <p class="text-muted">{{item._id}}</p>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /. Item details box -->
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.container -->

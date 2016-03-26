@@ -34,8 +34,14 @@ module.exports = function(app) {
 				$http.get('/api/menu').success(function(response) {
 					if(response.error) { return callback(response.error, null); }
 					if(response.menu) { return callback(null, response.menu); }
-				}); // end of API request
-			}, // end of get() method
+				});
+			},
+			getAll: function(callback) {
+				$http.get('/api/menu/all').success(function(response) {
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
+				});
+			},
 			post: function(menuItem, callback) {
 				$http.post('/api/menu', menuItem).success(function(response) {
 					if(response.error) { return callback(response.error, null); }
@@ -56,12 +62,6 @@ module.exports = function(app) {
 			},
 			deleteItem: function(menuItemID, callback) {
 				$http.delete('/api/menu/item/' + menuItemID).success(function(response) {
-					if(response.error) { return callback(response.error, null); }
-					if(response.menu) { return callback(null, response.menu); }
-				});
-			},
-			getAll: function(callback) {
-				$http.get('/api/menu/all').success(function(response) {
 					if(response.error) { return callback(response.error, null); }
 					if(response.menu) { return callback(null, response.menu); }
 				});

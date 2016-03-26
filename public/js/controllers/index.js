@@ -4,14 +4,33 @@ module.exports = function(app) {
 
   });
 
-  app.controller('FrontpageController', function($scope, $state, $location, Menu) {
-    console.log("Hi there");
+  app.controller('FrontpageController', function($scope, $state, $location, Menu, User) {
     $('body').addClass('layout-top-nav');
+
+    // Check if User is logged-in
+    User.get(function(err, user) {
+      if (user) {
+        $scope.user = user;
+      }
+    });
 
     // Get the global Menu
     Menu.getAll(function(error, menu) {
       if(error) { console.log(error); }
       if(menu) { $scope.globalMenu = menu; }
+    });
+  });
+
+  app.controller('fpHeaderController', function($scope, $state, $location, Menu) {
+    $scope.showUserAccountMenu = $scope.user ? true : false;
+    console.log("User logged: " + $scope.showUserAccountMenu);
+  });
+
+  app.controller('FrontpageItemController', function($scope, $state, $location, Menu) {
+    // Read item ID in the URL and load from DB
+    Menu.getItem($state.params.id, function(error, item) {
+      if (error) console.log(error);
+      $scope.item = item;
     });
   });
 
@@ -187,7 +206,7 @@ module.exports = function(app) {
     });
 
     $scope.location = $location.url();
-    console.log($scope.location);
+    //console.log($scope.location);
 
     // This var is used for loding spinner state
     $scope.loading = null;

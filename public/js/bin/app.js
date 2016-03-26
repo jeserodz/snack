@@ -36263,14 +36263,33 @@ module.exports = function(app) {
 
   });
 
-  app.controller('FrontpageController', function($scope, $state, $location, Menu) {
-    console.log("Hi there");
+  app.controller('FrontpageController', function($scope, $state, $location, Menu, User) {
     $('body').addClass('layout-top-nav');
+
+    // Check if User is logged-in
+    User.get(function(err, user) {
+      if (user) {
+        $scope.user = user;
+      }
+    });
 
     // Get the global Menu
     Menu.getAll(function(error, menu) {
       if(error) { console.log(error); }
       if(menu) { $scope.globalMenu = menu; }
+    });
+  });
+
+  app.controller('fpHeaderController', function($scope, $state, $location, Menu) {
+    $scope.showUserAccountMenu = $scope.user ? true : false;
+    console.log("User logged: " + $scope.showUserAccountMenu);
+  });
+
+  app.controller('FrontpageItemController', function($scope, $state, $location, Menu) {
+    // Read item ID in the URL and load from DB
+    Menu.getItem($state.params.id, function(error, item) {
+      if (error) console.log(error);
+      $scope.item = item;
     });
   });
 
@@ -36446,7 +36465,7 @@ module.exports = function(app) {
     });
 
     $scope.location = $location.url();
-    console.log($scope.location);
+    //console.log($scope.location);
 
     // This var is used for loding spinner state
     $scope.loading = null;
@@ -36493,6 +36512,14 @@ module.exports = function(app) {
 
 },{}],7:[function(require,module,exports){
 module.exports = function(app) {
+
+	app.directive('fpHeader', function() {
+		return {
+			templateUrl: '../templates/fp-header.html',
+			controller: 'fpHeaderController'
+		};
+	});
+
 	app.directive('fsHeader', function() {
 		return {
 			templateUrl: '../templates/fs-header.html'
@@ -36512,6 +36539,7 @@ module.exports = function(app) {
 	});
 
 };
+
 },{}],8:[function(require,module,exports){
 var angular = require('angular');
 var uiRouter = require('angular-ui-router');
@@ -36557,6 +36585,12 @@ module.exports = function(app) {
       templateUrl: "templates/frontpage.html",
       controller: "FrontpageController"
     })
+      // State for frontpage ITEM view
+      .state('frontpage.item', {
+        url: "/item/:id",
+        templateUrl: "templates/frontpage.item.html",
+        controller: "FrontpageItemController"
+      })
 
     // States for Restaurant users
     .state('dashboard', {
@@ -36646,8 +36680,14 @@ module.exports = function(app) {
 				$http.get('/api/menu').success(function(response) {
 					if(response.error) { return callback(response.error, null); }
 					if(response.menu) { return callback(null, response.menu); }
-				}); // end of API request
-			}, // end of get() method
+				});
+			},
+			getAll: function(callback) {
+				$http.get('/api/menu/all').success(function(response) {
+					if(response.error) { return callback(response.error, null); }
+					if(response.menu) { return callback(null, response.menu); }
+				});
+			},
 			post: function(menuItem, callback) {
 				$http.post('/api/menu', menuItem).success(function(response) {
 					if(response.error) { return callback(response.error, null); }
@@ -36668,12 +36708,6 @@ module.exports = function(app) {
 			},
 			deleteItem: function(menuItemID, callback) {
 				$http.delete('/api/menu/item/' + menuItemID).success(function(response) {
-					if(response.error) { return callback(response.error, null); }
-					if(response.menu) { return callback(null, response.menu); }
-				});
-			},
-			getAll: function(callback) {
-				$http.get('/api/menu/all').success(function(response) {
 					if(response.error) { return callback(response.error, null); }
 					if(response.menu) { return callback(null, response.menu); }
 				});

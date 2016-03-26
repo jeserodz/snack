@@ -1,4 +1,12 @@
 module.exports = function(app) {
+
+	app.directive('fpHeader', function() {
+		return {
+			templateUrl: '../templates/fp-header.html',
+			controller: 'fpHeaderController'
+		};
+	});
+
 	app.directive('fsHeader', function() {
 		return {
 			templateUrl: '../templates/fs-header.html'
