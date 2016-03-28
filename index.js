@@ -36,6 +36,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
 
 // Authentication
 wagner.invoke(require('./auth'), { app: app });

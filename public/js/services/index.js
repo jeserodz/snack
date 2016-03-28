@@ -9,7 +9,13 @@ module.exports = function(app) {
 					if(response.error) { return callback(response.error, null); }
 					if(response.user) { return callback(null, response.user); }
 				}); // end of API request
-			} // end of get() method
+			},
+			register: function(newUser, callback) {
+				$http.post('/api/user/register', newUser).success(function(response) {
+					if(response.error) { return callback(response.error, null); }
+					if(response.user) { return callback(null, response.user); }
+				});
+			}
 		};
 	}]);
 

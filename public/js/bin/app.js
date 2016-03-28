@@ -36261,11 +36261,6 @@ module.exports = function(app) {
 
   app.controller('MainController', function($scope, $state, $location, User) {
 
-  });
-
-  app.controller('FrontpageController', function($scope, $state, $location, Menu, User) {
-    $('body').addClass('layout-top-nav');
-
     // Check if User is logged-in
     User.get(function(err, user) {
       if (user) {
@@ -36273,10 +36268,47 @@ module.exports = function(app) {
       }
     });
 
+  });
+
+  app.controller('RegisterController', function($scope, $state, $location, User) {
+    $scope.newUser = {};
+    $scope.registrate = function() {
+      if($scope.newUser.username && $scope.newUser.displayName && $scope.newUser.password) {
+        if($scope.newUser.password === $scope.confirmPassword) {
+          User.register($scope.newUser, function(err, user){
+            if(err) { console.log(err); }
+            if(user) { $state.go('login'); }
+          });
+        }
+      }
+    };
+  });
+
+  // LOCAL AUTHENTICATION WITH PASSPORT IS BETTER
+
+  // app.controller('LoginController', function($scope, $state, $location, User) {
+  //   $scope.user = {};
+  //   $scope.login = function() {
+  //     if($scope.newUser.username && $scope.newUser.password) {
+  //       User.login($scope.newUser, function(err, user){
+  //         if(err) { console.log(err); }
+  //         if(user) { $state.go('login'); }
+  //       });
+  //     }
+  //   };
+  // });
+
+  app.controller('FrontpageController', function($scope, $state, $location, Menu, User) {
+    $('body').addClass('layout-top-nav');
+
     // Get the global Menu
     Menu.getAll(function(error, menu) {
-      if(error) { console.log(error); }
-      if(menu) { $scope.globalMenu = menu; }
+      if (error) {
+        console.log(error);
+      }
+      if (menu) {
+        $scope.globalMenu = menu;
+      }
     });
   });
 
@@ -36295,26 +36327,17 @@ module.exports = function(app) {
 
   app.controller('DashboardController', function($scope, $http, $state, User, Menu) {
     $('body').removeClass('layout-top-nav');
-
-    // Check if User is logged-in
-    User.get(function(err, user) {
-      // If not logged-in, go to login page
-      if (err) {
-        console.log(err);
-        $state.go('login');
-      }
-
       // If logged-in, check user type
-      else if (user) {
-
-        $scope.user = user;
+      if ($scope.user) {
         if ($scope.user.type == 'restaurant') {
-            console.log($scope.user.type);
+          console.log($scope.user.type);
           // Load the restaurant dashboard
           $state.go('dashboard.general');
         }
       }
-    });
+      else {
+        $state.go('login');
+      }
   });
 
   app.controller('MenuCtrl', function($scope, $http, $state, Provider, Menu) {
@@ -36574,9 +36597,16 @@ module.exports = function(app) {
     // Now set up the states
     $stateProvider
     // State for login view
-      .state('login', {
+    .state('login', {
       url: "/login",
       templateUrl: "templates/login.html"
+    })
+
+    // State for register view
+    .state('register', {
+      url: "/register",
+      templateUrl: "templates/register.html",
+      controller: "RegisterController"
     })
 
     // State for frontpage view
@@ -36655,7 +36685,13 @@ module.exports = function(app) {
 					if(response.error) { return callback(response.error, null); }
 					if(response.user) { return callback(null, response.user); }
 				}); // end of API request
-			} // end of get() method
+			},
+			register: function(newUser, callback) {
+				$http.post('/api/user/register', newUser).success(function(response) {
+					if(response.error) { return callback(response.error, null); }
+					if(response.user) { return callback(null, response.user); }
+				});
+			}
 		};
 	}]);
 

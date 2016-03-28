@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 // Define User schema
 var userSchema = mongoose.Schema({
 	username: {type: String},
+	password: {type: String},
 	displayName: {type: String},
 	type: {type: String, enum: ['customer', 'restaurant']},
 	picture: {type: String},

@@ -7,9 +7,16 @@ module.exports = function(app) {
     // Now set up the states
     $stateProvider
     // State for login view
-      .state('login', {
+    .state('login', {
       url: "/login",
       templateUrl: "templates/login.html"
+    })
+
+    // State for register view
+    .state('register', {
+      url: "/register",
+      templateUrl: "templates/register.html",
+      controller: "RegisterController"
     })
 
     // State for frontpage view

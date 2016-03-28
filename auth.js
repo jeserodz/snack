@@ -1,5 +1,6 @@
 var session = require('express-session');
 var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var InstagramStrategy = require('passport-instagram');
 var googleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
@@ -15,7 +16,7 @@ module.exports = function(Config, User, app) {
 	  function(accessToken, refreshToken, profile, done) {
 	    User.findOneAndUpdate(
 	    	// query by example
-	    { 
+	    {
 	    	'oauth.id': profile.id
 	    },
 	    	// update or create user document with latest data
@@ -51,7 +52,7 @@ module.exports = function(Config, User, app) {
 		}, function(accessToken, refreshToken, profile, done) {
 			User.findOneAndUpdate(
 	    	// query by example
-	    { 
+	    {
 	    	'oauth.id': profile.id
 	    },
 	    	// update or create user document with latest data
@@ -79,7 +80,25 @@ module.exports = function(Config, User, app) {
 		}
 	));
 
-	// passport 
+
+	// - Local Strategy
+	passport.use(new LocalStrategy(function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) {
+				console.log(err);
+				return done(err);
+			}
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (user.password != password) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }));
+
+	// passport
 	passport.serializeUser(function(user, done) {
 	  done(null, user.id);
 	});
@@ -104,17 +123,17 @@ module.exports = function(Config, User, app) {
 
 
   // Confiure Routes
-  app.get('/auth/instagram', passport.authenticate('instagram', 
+  app.get('/auth/instagram', passport.authenticate('instagram',
   	{ scope: [
-  			'basic', 
-  			'public_content', 
-  			'follower_list', 
-  			'comments', 
-  			'relationships', 
-  			'likes'] 
+  			'basic',
+  			'public_content',
+  			'follower_list',
+  			'comments',
+  			'relationships',
+  			'likes']
 		}));
 
-	app.get('/auth/instagram/callback', 
+	app.get('/auth/instagram/callback',
 	  passport.authenticate('instagram', { failureRedirect: '/authFailed' }),
 	  function(req, res) {
 	    // Successful authentication, redirect home.
@@ -123,12 +142,22 @@ module.exports = function(Config, User, app) {
 
 	app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
 
-	app.get('/auth/google/callback', 
+	app.get('/auth/google/callback',
 	  passport.authenticate('google', { failureRedirect: '/authFailed' }),
 	  function(req, res) {
 	    // Successful authentication, redirect home.
 	    res.redirect('/');
 	  });
+
+	app.post('/auth/local', passport.authenticate('local'), function(req, res) {
+		console.log("auth started!!!");
+		if(req.user.type === 'restaurant') {
+			res.redirect('/#/dashboard');
+		}
+		else if (res.user.type === 'client') {
+			res.redirect('/#/frontpage');
+		}
+	});
 
 	app.get('/auth/logout', function(req, res) {
 		req.logout();
